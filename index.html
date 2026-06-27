@@ -530,17 +530,22 @@ function calcRender(){
   const N=DATA.baseTotal, k0=ownedBaseCount();
   const price=Math.max(0.5, parseFloat(document.getElementById('optPrice').value)||7);
   const packSize=Math.max(1, parseInt(document.getElementById('optPack').value)||7);
-  let T=Math.min(N, Math.max(1, calcTarget));
+  // slider vai do que já está colado (k0) até 100% (N); meta nunca abaixo do atual
+  const lo=k0, hi=N;
+  let T=Math.min(hi, Math.max(Math.max(1,lo), calcTarget));
   const pct=Math.round(T/N*100);
   // slider fill + labels
   const sl=document.getElementById('calcSlider');
-  sl.value=T; sl.style.setProperty('--fill', ((T-sl.min)/(sl.max-sl.min)*100)+'%');
+  sl.min=lo; sl.max=hi; sl.value=T;
+  const range=hi-lo; sl.style.setProperty('--fill', (range>0?((T-lo)/range*100):100)+'%');
   document.getElementById('calcTargetN').textContent=T;
   document.getElementById('calcPct2').textContent=pct+'%';
   document.getElementById('calcPctLbl').textContent=pct+'%';
-  // presets highlight
+  // presets: destaca o ativo e esconde metas abaixo do já colado (100% sempre fica)
   document.querySelectorAll('#presets button').forEach(b=>{
-    b.classList.toggle('on', Math.round(N*(+b.dataset.pct)/100)===T); });
+    const pt=Math.round(N*(+b.dataset.pct)/100);
+    b.style.display=(pt<k0 && (+b.dataset.pct)<100)?'none':'';
+    b.classList.toggle('on', pt===T); });
   const note=document.getElementById('calcNote');
   if(T<=k0){
     document.getElementById('calcCost').textContent="feito ✓";
@@ -566,8 +571,8 @@ function calcRender(){
 }
 function calcInit(){
   const sl=document.getElementById('calcSlider');
-  sl.min=Math.max(50, Math.round(DATA.baseTotal*0.5));
-  document.getElementById('calcHead').addEventListener('click',()=>document.getElementById('calc').classList.toggle('open'));
+  sl.max=DATA.baseTotal;
+  document.getElementById('calcHead').addEventListener('click',()=>{ const c=document.getElementById('calc'); c.classList.toggle('open'); if(c.classList.contains('open')) calcRender(); });
   document.querySelectorAll('#presets button').forEach(b=>b.addEventListener('click',()=>{
     calcTarget=Math.round(DATA.baseTotal*(+b.dataset.pct)/100); calcRender(); }));
   sl.addEventListener('input',()=>{ calcTarget=+sl.value; calcRender(); });
