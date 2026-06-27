@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0A1B33">
+<title>Copa 2026 · Figurinhas</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800;900&family=Inter:wght@400;500;600;700&family=Space+Mono:wght@700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#EEF1F4; --card:#FFFFFF; --ink:#0A1B33; --ink-soft:#41506b;
+  --line:#D7DEE7; --muted:#8a97a9;
+  --have:#16A75C; --have-d:#0E7C42; --have-bg:#e7f6ee;
+  --accent:#E5237E; --accent-soft:#fbe3ef;
+  --foil1:#f7d774; --foil2:#e9a0c9; --foil3:#9ad1f0;
+  --shadow:0 1px 0 rgba(10,27,51,.04), 0 6px 18px rgba(10,27,51,.06);
+  --radius:16px;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  background:var(--paper); color:var(--ink);
+  font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
+  -webkit-font-smoothing:antialiased; line-height:1.4;
+  padding-bottom:96px;
+}
+.wrap{max-width:680px;margin:0 auto;padding:0 14px}
+
+/* ---------- Top bar ---------- */
+.top{position:sticky;top:0;z-index:30;background:rgba(238,241,244,.86);backdrop-filter:saturate(1.2) blur(10px);
+  padding:calc(env(safe-area-inset-top) + 10px) 0 8px;border-bottom:1px solid var(--line)}
+.toprow{display:flex;align-items:center;gap:10px}
+.brand{font-family:Archivo;font-weight:900;letter-spacing:-.02em;font-size:15px;text-transform:uppercase;line-height:1}
+.brand b{color:var(--accent)}
+.kebab{margin-left:auto;border:1px solid var(--line);background:var(--card);width:38px;height:38px;border-radius:11px;
+  font-size:18px;line-height:1;color:var(--ink);cursor:pointer;display:grid;place-items:center}
+.searchrow{display:flex;gap:8px;margin-top:10px}
+.search{flex:1;position:relative}
+.search input{width:100%;border:1px solid var(--line);background:var(--card);border-radius:12px;
+  padding:11px 12px 11px 38px;font-size:16px;color:var(--ink);font-family:Inter}
+.search input::placeholder{color:var(--muted)}
+.search svg{position:absolute;left:12px;top:50%;transform:translateY(-50%);width:17px;height:17px;stroke:var(--muted)}
+.toggle{flex-shrink:0;border:1px solid var(--line);background:var(--card);border-radius:12px;padding:0 12px;
+  display:flex;align-items:center;gap:8px;font-size:13px;font-weight:600;color:var(--ink-soft);cursor:pointer;white-space:nowrap}
+.toggle .dot{width:30px;height:18px;border-radius:20px;background:var(--line);position:relative;transition:.18s}
+.toggle .dot::after{content:"";position:absolute;top:2px;left:2px;width:14px;height:14px;border-radius:50%;background:#fff;transition:.18s;box-shadow:0 1px 2px rgba(0,0,0,.2)}
+.toggle.on{color:var(--accent);border-color:var(--accent)}
+.toggle.on .dot{background:var(--accent)}
+.toggle.on .dot::after{transform:translateX(12px)}
+
+/* ---------- Hero ---------- */
+.hero{position:relative;overflow:hidden;background:linear-gradient(160deg,#0A1B33,#12305c 70%,#1b3d73);
+  color:#fff;border-radius:20px;margin:14px 0;padding:18px 18px 16px;box-shadow:var(--shadow)}
+.hero .mark{position:absolute;right:-18px;top:-30px;font-family:Archivo;font-weight:900;font-size:190px;line-height:1;
+  color:#fff;opacity:.06;letter-spacing:-.05em}
+.hero h2{margin:0;font-family:Archivo;font-weight:700;font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:#9fb6da}
+.bignum{display:flex;align-items:baseline;gap:10px;margin-top:2px}
+.bignum .v{font-family:Archivo;font-weight:900;font-size:64px;line-height:.92;letter-spacing:-.03em;font-variant-numeric:tabular-nums}
+.bignum .of{font-size:14px;color:#9fb6da;font-weight:600}
+.bignum .lbl{font-family:Archivo;font-weight:800;text-transform:uppercase;letter-spacing:.04em;font-size:15px;color:var(--accent);align-self:flex-end;margin-bottom:8px}
+.bar{height:10px;border-radius:20px;background:rgba(255,255,255,.16);margin-top:12px;overflow:hidden}
+.bar > i{display:block;height:100%;width:0;border-radius:20px;background:linear-gradient(90deg,#16A75C,#46d98a);transition:width .4s cubic-bezier(.2,.8,.2,1)}
+.herofoot{display:flex;gap:18px;margin-top:12px;font-size:12.5px;color:#cdd9ec}
+.herofoot b{font-family:Space Mono;font-weight:700;color:#fff;font-size:14px}
+.herofoot .sep{width:1px;background:rgba(255,255,255,.18)}
+
+/* ---------- Section ---------- */
+.sec{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);margin:10px 0;box-shadow:var(--shadow);overflow:hidden}
+.sec.bonus{border-style:dashed}
+.sechead{display:flex;align-items:center;gap:12px;padding:13px 14px;cursor:pointer;user-select:none}
+.code{font-family:Space Mono;font-weight:700;font-size:12px;color:#fff;background:var(--ink);padding:5px 8px;border-radius:8px;letter-spacing:.02em;min-width:44px;text-align:center}
+.sec.done .code{background:var(--have)}
+.bonus .code{background:var(--accent)}
+.sectitle{flex:1;min-width:0}
+.sectitle .t{font-family:Archivo;font-weight:800;font-size:16px;letter-spacing:-.01em;display:flex;align-items:center;gap:7px}
+.sectitle .t .chk{color:var(--have);font-size:15px;display:none}
+.sec.done .sectitle .t .chk{display:inline}
+.sectitle .s{font-size:11.5px;color:var(--muted);margin-top:1px}
+.count{font-family:Space Mono;font-weight:700;font-size:13px;color:var(--ink-soft);font-variant-numeric:tabular-nums;white-space:nowrap}
+.count b{color:var(--have)}
+.mini{height:5px;background:var(--paper);border-radius:6px;overflow:hidden;margin:0 14px 10px;display:none}
+.sec.open .mini{display:block}
+.mini > i{display:block;height:100%;width:0;background:var(--have);border-radius:6px;transition:width .3s}
+.caret{width:16px;height:16px;stroke:var(--muted);transition:transform .2s;flex-shrink:0}
+.sec.open .caret{transform:rotate(180deg)}
+
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(96px,1fr));gap:8px;padding:0 12px 14px;display:none}
+.sec.open .grid{display:grid}
+
+/* ---------- Sticker chip ---------- */
+.chip{position:relative;border:1.5px dashed var(--line);background:#fbfcfe;border-radius:12px;
+  padding:9px 8px 8px;min-height:72px;display:flex;flex-direction:column;justify-content:space-between;
+  cursor:pointer;-webkit-tap-highlight-color:transparent;transition:transform .08s, box-shadow .15s, background .15s, border-color .15s}
+.chip:active{transform:scale(.94)}
+.chip .n{font-family:Archivo;font-weight:900;font-size:20px;line-height:1;color:#b9c2d0;font-variant-numeric:tabular-nums}
+.chip .nm{font-size:10.5px;line-height:1.15;color:var(--ink-soft);margin-top:6px;font-weight:500;
+  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.chip .tick{position:absolute;top:6px;right:6px;width:18px;height:18px;border-radius:50%;border:1.5px solid var(--line);background:#fff;display:grid;place-items:center}
+.chip .tick svg{width:11px;height:11px;stroke:#fff;stroke-width:3.5;opacity:0}
+.chip.have{border-style:solid;border-color:var(--have);background:var(--have-bg)}
+.chip.have .n{color:var(--have-d)}
+.chip.have .nm{color:var(--have-d);font-weight:600}
+.chip.have .tick{background:var(--have);border-color:var(--have)}
+.chip.have .tick svg{opacity:1}
+.chip.foil .n{background:linear-gradient(120deg,var(--foil1),var(--foil2),var(--foil3));-webkit-background-clip:text;background-clip:text;color:transparent}
+.chip.foil::before{content:"✦";position:absolute;left:7px;bottom:6px;font-size:9px;color:#c9a23a;opacity:.65}
+.chip.have.foil .n{-webkit-text-fill-color:initial;color:var(--have-d)}
+
+.emptyhint{padding:8px 14px 16px;color:var(--muted);font-size:12.5px;display:none}
+.sec.open.allhave .grid{opacity:.5}
+
+/* ---------- Floating action ---------- */
+.fab{position:fixed;left:0;right:0;bottom:0;z-index:40;padding:10px 14px calc(env(safe-area-inset-bottom) + 12px);
+  background:linear-gradient(transparent,rgba(238,241,244,.9) 30%);pointer-events:none}
+.fab .inner{max-width:680px;margin:0 auto;display:flex;gap:8px;pointer-events:auto}
+.btn{flex:1;border:none;border-radius:14px;padding:13px;font-family:Archivo;font-weight:800;font-size:14px;
+  letter-spacing:.01em;cursor:pointer;box-shadow:var(--shadow);display:flex;align-items:center;justify-content:center;gap:8px}
+.btn.primary{background:var(--accent);color:#fff}
+.btn.ghost{flex:0 0 auto;background:var(--card);color:var(--ink);border:1px solid var(--line);width:52px;padding:13px 0}
+.btn svg{width:17px;height:17px}
+
+/* ---------- Menu sheet ---------- */
+.scrim{position:fixed;inset:0;background:rgba(10,27,51,.4);z-index:50;opacity:0;pointer-events:none;transition:.2s}
+.scrim.show{opacity:1;pointer-events:auto}
+.sheet{position:fixed;left:0;right:0;bottom:0;z-index:51;background:var(--card);border-radius:22px 22px 0 0;
+  padding:10px 14px calc(env(safe-area-inset-bottom) + 16px);transform:translateY(110%);transition:transform .26s cubic-bezier(.2,.8,.2,1);box-shadow:0 -10px 40px rgba(10,27,51,.2)}
+.sheet.show{transform:translateY(0)}
+.grab{width:38px;height:4px;border-radius:4px;background:var(--line);margin:4px auto 12px}
+.mitem{display:flex;align-items:center;gap:12px;width:100%;background:none;border:none;text-align:left;
+  padding:13px 8px;font-size:15px;color:var(--ink);font-weight:600;cursor:pointer;border-radius:12px;font-family:Inter}
+.mitem:active{background:var(--paper)}
+.mitem svg{width:19px;height:19px;stroke:var(--ink-soft)}
+.mitem.danger{color:#c4123a}.mitem.danger svg{stroke:#c4123a}
+.mitem small{display:block;font-weight:400;font-size:12px;color:var(--muted);margin-top:1px}
+
+/* toast */
+.toast{position:fixed;left:50%;bottom:96px;transform:translateX(-50%) translateY(20px);z-index:60;
+  background:var(--ink);color:#fff;padding:11px 16px;border-radius:12px;font-size:13.5px;font-weight:600;
+  opacity:0;pointer-events:none;transition:.22s;box-shadow:0 8px 24px rgba(10,27,51,.3);max-width:88vw;text-align:center}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.saved{font-size:11px;color:var(--muted);font-weight:600;margin-left:auto;opacity:0;transition:.3s}
+.saved.show{opacity:1}
+.nores{text-align:center;color:var(--muted);padding:40px 10px;font-size:14px;display:none}
+
+/* ---------- Calculator ---------- */
+.calc{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);margin:10px 0;box-shadow:var(--shadow);overflow:hidden}
+.calchead{display:flex;align-items:center;gap:12px;padding:13px 14px;cursor:pointer;user-select:none}
+.calchead .ic{width:34px;height:34px;border-radius:10px;background:var(--accent-soft);display:grid;place-items:center;flex-shrink:0}
+.calchead .ic svg{width:18px;height:18px;stroke:var(--accent)}
+.calcttl{flex:1;min-width:0}
+.calcttl .t{font-family:Archivo;font-weight:800;font-size:15px;letter-spacing:-.01em}
+.calcttl .t b{color:var(--accent)}
+.calcttl .s{font-size:11.5px;color:var(--muted);margin-top:1px}
+.calccost{font-family:Archivo;font-weight:900;font-size:18px;color:var(--ink);font-variant-numeric:tabular-nums;white-space:nowrap}
+.calc .caret{width:16px;height:16px;stroke:var(--muted);transition:transform .2s;flex-shrink:0}
+.calc.open .caret{transform:rotate(180deg)}
+.calcbody{display:none;padding:0 14px 16px}
+.calc.open .calcbody{display:block}
+.presets{display:flex;gap:6px;margin-bottom:14px;flex-wrap:wrap}
+.presets button{flex:1;min-width:52px;border:1.5px solid var(--line);background:#fbfcfe;border-radius:10px;padding:9px 4px;
+  font-family:Archivo;font-weight:800;font-size:13px;color:var(--ink-soft);cursor:pointer;transition:.12s}
+.presets button.on{background:var(--accent);border-color:var(--accent);color:#fff}
+input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:6px;border-radius:6px;
+  background:linear-gradient(90deg,var(--accent) var(--fill,50%),var(--line) var(--fill,50%));margin:6px 0 4px}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:24px;height:24px;border-radius:50%;background:#fff;
+  border:3px solid var(--accent);box-shadow:0 2px 6px rgba(10,27,51,.25);cursor:pointer}
+.sliderlbls{text-align:center;font-size:13px;color:var(--ink-soft);font-weight:600;margin-bottom:14px}
+.sliderlbls b{font-family:Space Mono;color:var(--ink)}
+.readout{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px}
+.readout .cell{background:var(--paper);border-radius:12px;padding:11px 6px;text-align:center}
+.readout .cell b{display:block;font-family:Archivo;font-weight:900;font-size:21px;line-height:1;font-variant-numeric:tabular-nums;color:var(--ink)}
+.readout .cell.dup b{color:var(--accent)}
+.readout .cell span{font-size:10.5px;color:var(--muted);margin-top:4px;display:block;text-transform:uppercase;letter-spacing:.04em;font-weight:600}
+.calcopts{display:flex;gap:10px;margin-bottom:10px}
+.calcopts label{flex:1;font-size:11px;color:var(--muted);font-weight:600;display:flex;flex-direction:column;gap:4px}
+.calcopts input{border:1px solid var(--line);border-radius:9px;padding:8px 10px;font-size:15px;font-family:Space Mono;color:var(--ink);width:100%}
+.calcnote{font-size:11.5px;color:var(--muted);line-height:1.5}
+.calcnote.good{color:var(--have-d);font-weight:600}
+
+/* ---------- Auth gate ---------- */
+.authgate{position:fixed;inset:0;z-index:200;background:linear-gradient(160deg,#0A1B33,#12305c 70%,#1b3d73);
+  display:flex;align-items:center;justify-content:center;padding:24px;overflow:auto}
+.authcard{width:100%;max-width:380px;background:var(--card);border-radius:22px;box-shadow:0 20px 60px rgba(0,0,0,.35);
+  padding:26px 22px 24px;position:relative;overflow:hidden}
+.authcard .mark{position:absolute;right:-14px;top:-26px;font-family:Archivo;font-weight:900;font-size:150px;line-height:1;color:var(--ink);opacity:.05;letter-spacing:-.05em}
+.authbrand{font-family:Archivo;font-weight:900;text-transform:uppercase;letter-spacing:-.02em;font-size:20px;line-height:1}
+.authbrand b{color:var(--accent)}
+.authsub{color:var(--muted);font-size:13px;margin:6px 0 20px}
+.authfield{margin-bottom:12px}
+.authfield label{display:block;font-size:12px;font-weight:600;color:var(--ink-soft);margin-bottom:5px}
+.authfield input{width:100%;border:1px solid var(--line);border-radius:12px;padding:13px 12px;font-size:16px;font-family:Inter;color:var(--ink)}
+.authfield input:focus{outline:none;border-color:var(--accent)}
+.authbtns{display:flex;gap:8px;margin-top:6px}
+.authbtns button{flex:1;border:none;border-radius:12px;padding:14px;font-family:Archivo;font-weight:800;font-size:15px;cursor:pointer}
+.authbtns .pri{background:var(--accent);color:#fff}
+.authbtns .sec{background:var(--paper);color:var(--ink);border:1px solid var(--line)}
+.authdiv{display:flex;align-items:center;gap:10px;margin:14px 0 4px;color:var(--ink-soft);font-size:12px;font-weight:600}
+.authdiv::before,.authdiv::after{content:"";flex:1;height:1px;background:var(--line)}
+.gbtn{width:100%;display:flex;align-items:center;justify-content:center;gap:10px;border:1px solid var(--line);border-radius:12px;padding:13px;background:#fff;color:var(--ink);font-family:Archivo;font-weight:800;font-size:15px;cursor:pointer;margin-top:10px}
+.gbtn:hover{background:var(--paper)}
+.gbtn svg{width:18px;height:18px;flex:0 0 auto}
+.authmsg{font-size:13px;margin-top:14px;min-height:18px;text-align:center;color:var(--ink-soft)}
+.authmsg.err{color:#c4123a}.authmsg.ok{color:var(--have-d)}
+.authcfg{background:#fff6f9;border:1px solid var(--accent-soft);color:#a01258;border-radius:12px;padding:12px;font-size:12.5px;line-height:1.5;margin-bottom:18px;display:none}
+.acct{display:flex;align-items:center;gap:8px;padding:10px 8px;border-top:1px solid var(--line);margin-top:6px;font-size:13px;color:var(--ink-soft)}
+.acct .em{font-weight:600;color:var(--ink);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.acct button{margin-left:auto;background:none;border:1px solid var(--line);border-radius:9px;padding:7px 12px;font-weight:700;color:#c4123a;cursor:pointer;font-family:Inter;font-size:13px}
+
+</style>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+
+<div class="authgate" id="authgate">
+  <div class="authcard">
+    <div class="mark">26</div>
+    <div class="authbrand">Copa <b>26</b> · Figurinhas</div>
+    <div class="authsub">Entre pra controlar o seu álbum. Seu progresso fica salvo na sua conta.</div>
+    <div class="authcfg" id="authcfg">⚠️ App ainda não configurado: falta colar a <b>URL</b> e a <b>anon key</b> do Supabase no topo do código.</div>
+    <div class="authfield"><label>E-mail</label><input id="authEmail" type="email" inputmode="email" autocomplete="email" placeholder="voce@email.com"></div>
+    <div class="authfield"><label>Senha</label><input id="authPass" type="password" autocomplete="current-password" placeholder="mín. 6 caracteres"></div>
+    <div class="authbtns">
+      <button class="pri" id="btnLogin">Entrar</button>
+      <button class="sec" id="btnSignup">Criar conta</button>
+    </div>
+    <div class="authdiv"><span>ou</span></div>
+    <button class="gbtn" id="btnGoogle">
+      <svg viewBox="0 0 18 18" aria-hidden="true"><path fill="#4285F4" d="M17.64 9.2c0-.64-.06-1.25-.16-1.84H9v3.48h4.84a4.14 4.14 0 0 1-1.8 2.72v2.26h2.92c1.7-1.57 2.68-3.88 2.68-6.62Z"/><path fill="#34A853" d="M9 18c2.43 0 4.47-.8 5.96-2.18l-2.92-2.26c-.81.54-1.84.86-3.04.86-2.34 0-4.32-1.58-5.02-3.7H.96v2.33A9 9 0 0 0 9 18Z"/><path fill="#FBBC05" d="M3.98 10.72a5.4 5.4 0 0 1 0-3.44V4.95H.96a9 9 0 0 0 0 8.1l3.02-2.33Z"/><path fill="#EA4335" d="M9 3.58c1.32 0 2.5.46 3.44 1.35l2.58-2.58A9 9 0 0 0 .96 4.95l3.02 2.33C4.68 5.16 6.66 3.58 9 3.58Z"/></svg>
+      Entrar com Google
+    </button>
+    <div class="authmsg" id="authMsg"></div>
+  </div>
+</div>
+
+<div class="top">
+  <div class="wrap">
+    <div class="toprow">
+      <div class="brand">Copa <b>26</b> · Figurinhas</div>
+      <button class="kebab" id="menuBtn" aria-label="Menu">⋯</button>
+    </div>
+    <div class="searchrow">
+      <div class="search">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4-4"/></svg>
+        <input id="search" type="search" inputmode="search" placeholder="Buscar jogador, time ou número…" autocomplete="off">
+      </div>
+      <button class="toggle" id="missBtn"><span class="dot"></span>Faltam</button>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+  <div class="hero">
+    <div class="mark">26</div>
+    <h2>Álbum oficial · 980 figurinhas</h2>
+    <div class="bignum"><span class="v" id="heroMiss">980</span><span class="lbl">faltam</span></div>
+    <div class="bar"><i id="heroBar"></i></div>
+    <div class="herofoot">
+      <div>Coladas <b id="heroHave">0</b></div>
+      <div class="sep"></div>
+      <div>Total <b>980</b></div>
+      <div class="sep"></div>
+      <div>Completo <b id="heroPct">0%</b></div>
+      <span class="saved" id="saved">salvo ✓</span>
+    </div>
+  </div>
+
+  <div class="calc" id="calc">
+    <div class="calchead" id="calcHead">
+      <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="2" width="16" height="20" rx="2"/><path d="M8 6h8M8 10h8M8 14h3M15 14h1M8 18h3M15 18h1"/></svg></span>
+      <div class="calcttl"><div class="t">Falta gastar pra <b id="calcPctLbl">90%</b></div><div class="s">estimativa comprando sem trocar</div></div>
+      <div class="calccost" id="calcCost">R$ —</div>
+      <svg class="caret" viewBox="0 0 24 24" fill="none" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+    </div>
+    <div class="calcbody">
+      <div class="presets" id="presets">
+        <button data-pct="70">70%</button><button data-pct="80">80%</button>
+        <button data-pct="90" class="on">90%</button><button data-pct="95">95%</button><button data-pct="100">100%</button>
+      </div>
+      <input type="range" id="calcSlider" min="490" max="980" step="1" value="882">
+      <div class="sliderlbls">meta: <b id="calcTargetN">882</b> coladas · <b id="calcPct2">90%</b></div>
+      <div class="readout">
+        <div class="cell"><b id="rPacks">—</b><span>pacotes</span></div>
+        <div class="cell"><b id="rNew">—</b><span>novas</span></div>
+        <div class="cell dup"><b id="rDup">—</b><span>repetidas</span></div>
+      </div>
+      <div class="calcopts">
+        <label>R$ / pacote<input type="number" id="optPrice" value="7" min="0.5" step="0.5" inputmode="decimal"></label>
+        <label>figurinhas / pacote<input type="number" id="optPack" value="7" min="1" step="1" inputmode="numeric"></label>
+      </div>
+      <div class="calcnote" id="calcNote"></div>
+    </div>
+  </div>
+
+  <div id="list"></div>
+  <div class="nores" id="nores">Nada encontrado. Tenta outro nome ou número.</div>
+</div>
+
+<div class="fab"><div class="inner">
+  <button class="btn primary" id="copyBtn">
+    <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+    Copiar lista de faltantes</button>
+  <button class="btn ghost" id="expandBtn" aria-label="Expandir tudo">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 9l5-5 5 5M7 15l5 5 5-5"/></svg></button>
+</div></div>
+
+<div class="scrim" id="scrim"></div>
+<div class="sheet" id="sheet">
+  <div class="grab"></div>
+  <button class="mitem" id="mCollapse"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 13l5 5 5-5M7 7l5 5 5-5"/></svg>Recolher todas as seções</button>
+  <button class="mitem" id="mCopyTeam"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>Copiar coladas (pra backup)<small>Lista do que você já tem</small></button>
+  <button class="mitem danger" id="mReset"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6"/></svg>Zerar tudo<small>Apaga todas as marcações</small></button>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const DATA = {"sections": [{"id": "intro", "kind": "base", "title": "Introdução", "sub": "Abertura do álbum", "items": [{"code": "00", "num": "00", "name": "Logo Panini", "foil": true}, {"code": "FWC1", "num": "FWC1", "name": "Emblema Oficial", "foil": true}, {"code": "FWC2", "num": "FWC2", "name": "Emblema Oficial", "foil": true}, {"code": "FWC3", "num": "FWC3", "name": "Mascotes Oficiais", "foil": true}, {"code": "FWC4", "num": "FWC4", "name": "Slogan Oficial", "foil": true}, {"code": "FWC5", "num": "FWC5", "name": "Bola Oficial", "foil": true}, {"code": "FWC6", "num": "FWC6", "name": "Canadá — Países e Cidades-Sede", "foil": true}, {"code": "FWC7", "num": "FWC7", "name": "México — Países e Cidades-Sede", "foil": true}, {"code": "FWC8", "num": "FWC8", "name": "EUA — Países e Cidades-Sede", "foil": true}]}, {"id": "MEX", "kind": "base", "title": "México", "sub": "MEX", "items": [{"code": "MEX1", "num": "1", "name": "Escudo", "foil": true}, {"code": "MEX2", "num": "2", "name": "Luis Malagón", "foil": false}, {"code": "MEX3", "num": "3", "name": "Johan Vásquez", "foil": false}, {"code": "MEX4", "num": "4", "name": "Jorge Sánchez", "foil": false}, {"code": "MEX5", "num": "5", "name": "César Montes", "foil": false}, {"code": "MEX6", "num": "6", "name": "Jesús Gallardo", "foil": false}, {"code": "MEX7", "num": "7", "name": "Israel Reyes", "foil": false}, {"code": "MEX8", "num": "8", "name": "Diego Lainez", "foil": false}, {"code": "MEX9", "num": "9", "name": "Carlos Rodríguez", "foil": false}, {"code": "MEX10", "num": "10", "name": "Edson Álvarez", "foil": false}, {"code": "MEX11", "num": "11", "name": "Orbelín Pineda", "foil": false}, {"code": "MEX12", "num": "12", "name": "Marcel Ruiz", "foil": false}, {"code": "MEX13", "num": "13", "name": "Foto da Seleção", "foil": false}, {"code": "MEX14", "num": "14", "name": "Érick Sánchez", "foil": false}, {"code": "MEX15", "num": "15", "name": "Hirving Lozano", "foil": false}, {"code": "MEX16", "num": "16", "name": "Santiago Giménez", "foil": false}, {"code": "MEX17", "num": "17", "name": "Raúl Jiménez", "foil": false}, {"code": "MEX18", "num": "18", "name": "Alexis Vega", "foil": false}, {"code": "MEX19", "num": "19", "name": "Roberto Alvarado", "foil": false}, {"code": "MEX20", "num": "20", "name": "César Huerta", "foil": false}]}, {"id": "RSA", "kind": "base", "title": "África do Sul", "sub": "RSA", "items": [{"code": "RSA1", "num": "1", "name": "Escudo", "foil": true}, {"code": "RSA2", "num": "2", "name": "Ronwen Williams", "foil": false}, {"code": "RSA3", "num": "3", "name": "Sipho Chaine", "foil": false}, {"code": "RSA4", "num": "4", "name": "Aubrey Modiba", "foil": false}, {"code": "RSA5", "num": "5", "name": "Samukele Kabini", "foil": false}, {"code": "RSA6", "num": "6", "name": "Mbekezeli Mbokazi", "foil": false}, {"code": "RSA7", "num": "7", "name": "Khulumani Ndamane", "foil": false}, {"code": "RSA8", "num": "8", "name": "Siyabonga Ngezana", "foil": false}, {"code": "RSA9", "num": "9", "name": "Khuliso Mudau", "foil": false}, {"code": "RSA10", "num": "10", "name": "Nkosinathi Sibisi", "foil": false}, {"code": "RSA11", "num": "11", "name": "Teboho Mokoena", "foil": false}, {"code": "RSA12", "num": "12", "name": "Thalente Mbatha", "foil": false}, {"code": "RSA13", "num": "13", "name": "Foto da Seleção", "foil": false}, {"code": "RSA14", "num": "14", "name": "Bathasi Aubaas", "foil": false}, {"code": "RSA15", "num": "15", "name": "Yaya Sithole", "foil": false}, {"code": "RSA16", "num": "16", "name": "Sipho Mbule", "foil": false}, {"code": "RSA17", "num": "17", "name": "Lyle Foster", "foil": false}, {"code": "RSA18", "num": "18", "name": "Iqraam Rayners", "foil": false}, {"code": "RSA19", "num": "19", "name": "Mohau Nkota", "foil": false}, {"code": "RSA20", "num": "20", "name": "Oswin Appollis", "foil": false}]}, {"id": "KOR", "kind": "base", "title": "Coreia do Sul", "sub": "KOR", "items": [{"code": "KOR1", "num": "1", "name": "Escudo", "foil": true}, {"code": "KOR2", "num": "2", "name": "Jo Hyeon-woo", "foil": false}, {"code": "KOR3", "num": "3", "name": "Kim Seung-gyu", "foil": false}, {"code": "KOR4", "num": "4", "name": "Kim Min-jae", "foil": false}, {"code": "KOR5", "num": "5", "name": "Cho Yu-min", "foil": false}, {"code": "KOR6", "num": "6", "name": "Seol Young-woo", "foil": false}, {"code": "KOR7", "num": "7", "name": "Lee Han-beom", "foil": false}, {"code": "KOR8", "num": "8", "name": "Lee Tae-seok", "foil": false}, {"code": "KOR9", "num": "9", "name": "Lee Myung-jae", "foil": false}, {"code": "KOR10", "num": "10", "name": "Lee Jae-sung", "foil": false}, {"code": "KOR11", "num": "11", "name": "Hwang In-beom", "foil": false}, {"code": "KOR12", "num": "12", "name": "Lee Kang-in", "foil": false}, {"code": "KOR13", "num": "13", "name": "Foto da Seleção", "foil": false}, {"code": "KOR14", "num": "14", "name": "Paik Seung-ho", "foil": false}, {"code": "KOR15", "num": "15", "name": "Jens Castrop", "foil": false}, {"code": "KOR16", "num": "16", "name": "Lee Dong-gyeong", "foil": false}, {"code": "KOR17", "num": "17", "name": "Cho Gue-sung", "foil": false}, {"code": "KOR18", "num": "18", "name": "Son Heung-min", "foil": false}, {"code": "KOR19", "num": "19", "name": "Hwang Hee-chan", "foil": false}, {"code": "KOR20", "num": "20", "name": "Oh Hyeon-gyu", "foil": false}]}, {"id": "CZE", "kind": "base", "title": "Tchéquia", "sub": "CZE", "items": [{"code": "CZE1", "num": "1", "name": "Escudo", "foil": true}, {"code": "CZE2", "num": "2", "name": "Matěj Kovář", "foil": false}, {"code": "CZE3", "num": "3", "name": "Jindřich Staněk", "foil": false}, {"code": "CZE4", "num": "4", "name": "Ladislav Krejčí", "foil": false}, {"code": "CZE5", "num": "5", "name": "Vladimír Coufal", "foil": false}, {"code": "CZE6", "num": "6", "name": "Jaroslav Zelený", "foil": false}, {"code": "CZE7", "num": "7", "name": "Tomáš Holeš", "foil": false}, {"code": "CZE8", "num": "8", "name": "David Zima", "foil": false}, {"code": "CZE9", "num": "9", "name": "Michal Sadílek", "foil": false}, {"code": "CZE10", "num": "10", "name": "Lukáš Provod", "foil": false}, {"code": "CZE11", "num": "11", "name": "Lukáš Červ", "foil": false}, {"code": "CZE12", "num": "12", "name": "Tomáš Souček", "foil": false}, {"code": "CZE13", "num": "13", "name": "Foto da Seleção", "foil": false}, {"code": "CZE14", "num": "14", "name": "Pavel Šulc", "foil": false}, {"code": "CZE15", "num": "15", "name": "Matěj Vydra", "foil": false}, {"code": "CZE16", "num": "16", "name": "Vasil Kušej", "foil": false}, {"code": "CZE17", "num": "17", "name": "Tomáš Chorý", "foil": false}, {"code": "CZE18", "num": "18", "name": "Václav Černý", "foil": false}, {"code": "CZE19", "num": "19", "name": "Adam Hložek", "foil": false}, {"code": "CZE20", "num": "20", "name": "Patrik Schick", "foil": false}]}, {"id": "CAN", "kind": "base", "title": "Canadá", "sub": "CAN", "items": [{"code": "CAN1", "num": "1", "name": "Escudo", "foil": true}, {"code": "CAN2", "num": "2", "name": "Dayne St. Clair", "foil": false}, {"code": "CAN3", "num": "3", "name": "Alphonso Davies", "foil": false}, {"code": "CAN4", "num": "4", "name": "Alistair Johnston", "foil": false}, {"code": "CAN5", "num": "5", "name": "Samuel Adekugbe", "foil": false}, {"code": "CAN6", "num": "6", "name": "Richie Laryea", "foil": false}, {"code": "CAN7", "num": "7", "name": "Derek Cornelius", "foil": false}, {"code": "CAN8", "num": "8", "name": "Moïse Bombito", "foil": false}, {"code": "CAN9", "num": "9", "name": "Kamal Miller", "foil": false}, {"code": "CAN10", "num": "10", "name": "Stephen Eustáquio", "foil": false}, {"code": "CAN11", "num": "11", "name": "Ismaël Koné", "foil": false}, {"code": "CAN12", "num": "12", "name": "Jonathan Osorio", "foil": false}, {"code": "CAN13", "num": "13", "name": "Foto da Seleção", "foil": false}, {"code": "CAN14", "num": "14", "name": "Jacob Shaffelburg", "foil": false}, {"code": "CAN15", "num": "15", "name": "Mathieu Choinière", "foil": false}, {"code": "CAN16", "num": "16", "name": "Niko Sigur", "foil": false}, {"code": "CAN17", "num": "17", "name": "Tajon Buchanan", "foil": false}, {"code": "CAN18", "num": "18", "name": "Liam Millar", "foil": false}, {"code": "CAN19", "num": "19", "name": "Cyle Larin", "foil": false}, {"code": "CAN20", "num": "20", "name": "Jonathan David", "foil": false}]}, {"id": "BIH", "kind": "base", "title": "Bósnia e Herzegovina", "sub": "BIH", "items": [{"code": "BIH1", "num": "1", "name": "Escudo", "foil": true}, {"code": "BIH2", "num": "2", "name": "Nikola Vasilj", "foil": false}, {"code": "BIH3", "num": "3", "name": "Amer Dedić", "foil": false}, {"code": "BIH4", "num": "4", "name": "Sead Kolašinac", "foil": false}, {"code": "BIH5", "num": "5", "name": "Tarik Muharemović", "foil": false}, {"code": "BIH6", "num": "6", "name": "Nihad Mujakić", "foil": false}, {"code": "BIH7", "num": "7", "name": "Nikola Katić", "foil": false}, {"code": "BIH8", "num": "8", "name": "Amir Hadžiahmetović", "foil": false}, {"code": "BIH9", "num": "9", "name": "Benjamin Tahirović", "foil": false}, {"code": "BIH10", "num": "10", "name": "Armin Gigović", "foil": false}, {"code": "BIH11", "num": "11", "name": "Ivan Šunjić", "foil": false}, {"code": "BIH12", "num": "12", "name": "Ivan Bašić", "foil": false}, {"code": "BIH13", "num": "13", "name": "Foto da Seleção", "foil": false}, {"code": "BIH14", "num": "14", "name": "Dženis Burnić", "foil": false}, {"code": "BIH15", "num": "15", "name": "Esmir Bajraktarević", "foil": false}, {"code": "BIH16", "num": "16", "name": "Amar Memić", "foil": false}, {"code": "BIH17", "num": "17", "name": "Ermedin Demirović", "foil": false}, {"code": "BIH18", "num": "18", "name": "Edin Džeko", "foil": false}, {"code": "BIH19", "num": "19", "name": "Samed Baždar", "foil": false}, {"code": "BIH20", "num": "20", "name": "Haris Tabaković", "foil": false}]}, {"id": "QAT", "kind": "base", "title": "Catar", "sub": "QAT", "items": [{"code": "QAT1", "num": "1", "name": "Escudo", "foil": true}, {"code": "QAT2", "num": "2", "name": "Meshaal Barsham", "foil": false}, {"code": "QAT3", "num": "3", "name": "Sultan Albrake", "foil": false}, {"code": "QAT4", "num": "4", "name": "Lucas Mendes", "foil": false}, {"code": "QAT5", "num": "5", "name": "Homam Ahmed", "foil": false}, {"code": "QAT6", "num": "6", "name": "Boualem Khoukhi", "foil": false}, {"code": "QAT7", "num": "7", "name": "Pedro Miguel", "foil": false}, {"code": "QAT8", "num": "8", "name": "Tarek Salman", "foil": false}, {"code": "QAT9", "num": "9", "name": "Mohamed Al-Mannai", "foil": false}, {"code": "QAT10", "num": "10", "name": "Karim Boudiaf", "foil": false}, {"code": "QAT11", "num": "11", "name": "Assim Madibo", "foil": false}, {"code": "QAT12", "num": "12", "name": "Ahmed Fatehi", "foil": false}, {"code": "QAT13", "num": "13", "name": "Foto da Seleção", "foil": false}, {"code": "QAT14", "num": "14", "name": "Mohammed Waad", "foil": false}, {"code": "QAT15", "num": "15", "name": "Abdulaziz Hatem", "foil": false}, {"code": "QAT16", "num": "16", "name": "Hassan Al-Haydos", "foil": false}, {"code": "QAT17", "num": "17", "name": "Edmilson Junior", "foil": false}, {"code": "QAT18", "num": "18", "name": "Akram Afif", "foil": false}, {"code": "QAT19", "num": "19", "name": "Ahmed Al Ganehi", "foil": false}, {"code": "QAT20", "num": "20", "name": "Almoez Ali", "foil": false}]}, {"id": "SUI", "kind": "base", "title": "Suíça", "sub": "SUI", "items": [{"code": "SUI1", "num": "1", "name": "Escudo", "foil": true}, {"code": "SUI2", "num": "2", "name": "Gregor Kobel", "foil": false}, {"code": "SUI3", "num": "3", "name": "Yvon Mvogo", "foil": false}, {"code": "SUI4", "num": "4", "name": "Manuel Akanji", "foil": false}, {"code": "SUI5", "num": "5", "name": "Ricardo Rodríguez", "foil": false}, {"code": "SUI6", "num": "6", "name": "Nico Elvedi", "foil": false}, {"code": "SUI7", "num": "7", "name": "Aurèle Amenda", "foil": false}, {"code": "SUI8", "num": "8", "name": "Silvan Widmer", "foil": false}, {"code": "SUI9", "num": "9", "name": "Granit Xhaka", "foil": false}, {"code": "SUI10", "num": "10", "name": "Denis Zakaria", "foil": false}, {"code": "SUI11", "num": "11", "name": "Remo Freuler", "foil": false}, {"code": "SUI12", "num": "12", "name": "Fabian Rieder", "foil": false}, {"code": "SUI13", "num": "13", "name": "Foto da Seleção", "foil": false}, {"code": "SUI14", "num": "14", "name": "Ardon Jashari", "foil": false}, {"code": "SUI15", "num": "15", "name": "Johan Manzambi", "foil": false}, {"code": "SUI16", "num": "16", "name": "Michel Aebischer", "foil": false}, {"code": "SUI17", "num": "17", "name": "Breel Embolo", "foil": false}, {"code": "SUI18", "num": "18", "name": "Rubén Vargas", "foil": false}, {"code": "SUI19", "num": "19", "name": "Dan Ndoye", "foil": false}, {"code": "SUI20", "num": "20", "name": "Zeki Amdouni", "foil": false}]}, {"id": "BRA", "kind": "base", "title": "Brasil", "sub": "BRA", "items": [{"code": "BRA1", "num": "1", "name": "Escudo", "foil": true}, {"code": "BRA2", "num": "2", "name": "Alisson", "foil": false}, {"code": "BRA3", "num": "3", "name": "Bento", "foil": false}, {"code": "BRA4", "num": "4", "name": "Marquinhos", "foil": false}, {"code": "BRA5", "num": "5", "name": "Éder Militão", "foil": false}, {"code": "BRA6", "num": "6", "name": "Gabriel Magalhães", "foil": false}, {"code": "BRA7", "num": "7", "name": "Danilo", "foil": false}, {"code": "BRA8", "num": "8", "name": "Wesley", "foil": false}, {"code": "BRA9", "num": "9", "name": "Lucas Paquetá", "foil": false}, {"code": "BRA10", "num": "10", "name": "Casemiro", "foil": false}, {"code": "BRA11", "num": "11", "name": "Bruno Guimarães", "foil": false}, {"code": "BRA12", "num": "12", "name": "Luiz Henrique", "foil": false}, {"code": "BRA13", "num": "13", "name": "Foto da Seleção", "foil": false}, {"code": "BRA14", "num": "14", "name": "Vinícius Júnior", "foil": false}, {"code": "BRA15", "num": "15", "name": "Rodrygo", "foil": false}, {"code": "BRA16", "num": "16", "name": "João Pedro", "foil": false}, {"code": "BRA17", "num": "17", "name": "Matheus Cunha", "foil": false}, {"code": "BRA18", "num": "18", "name": "Gabriel Martinelli", "foil": false}, {"code": "BRA19", "num": "19", "name": "Raphinha", "foil": false}, {"code": "BRA20", "num": "20", "name": "Estêvão", "foil": false}]}, {"id": "MAR", "kind": "base", "title": "Marrocos", "sub": "MAR", "items": [{"code": "MAR1", "num": "1", "name": "Escudo", "foil": true}, {"code": "MAR2", "num": "2", "name": "Yassine Bounou", "foil": false}, {"code": "MAR3", "num": "3", "name": "Munir El Kajoui", "foil": false}, {"code": "MAR4", "num": "4", "name": "Achraf Hakimi", "foil": false}, {"code": "MAR5", "num": "5", "name": "Noussair Mazraoui", "foil": false}, {"code": "MAR6", "num": "6", "name": "Nayef Aguerd", "foil": false}, {"code": "MAR7", "num": "7", "name": "Romain Saïss", "foil": false}, {"code": "MAR8", "num": "8", "name": "Jawad El Yamiq", "foil": false}, {"code": "MAR9", "num": "9", "name": "Adam Masina", "foil": false}, {"code": "MAR10", "num": "10", "name": "Sofyan Amrabat", "foil": false}, {"code": "MAR11", "num": "11", "name": "Azzedine Ounahi", "foil": false}, {"code": "MAR12", "num": "12", "name": "Eliesse Ben Seghir", "foil": false}, {"code": "MAR13", "num": "13", "name": "Foto da Seleção", "foil": false}, {"code": "MAR14", "num": "14", "name": "Bilal El Khannouss", "foil": false}, {"code": "MAR15", "num": "15", "name": "Ismael Saibari", "foil": false}, {"code": "MAR16", "num": "16", "name": "Youssef En-Nesyri", "foil": false}, {"code": "MAR17", "num": "17", "name": "Abde Ezzalzouli", "foil": false}, {"code": "MAR18", "num": "18", "name": "Soufiane Rahimi", "foil": false}, {"code": "MAR19", "num": "19", "name": "Brahim Díaz", "foil": false}, {"code": "MAR20", "num": "20", "name": "Ayoub El Kaabi", "foil": false}]}, {"id": "HAI", "kind": "base", "title": "Haiti", "sub": "HAI", "items": [{"code": "HAI1", "num": "1", "name": "Escudo", "foil": true}, {"code": "HAI2", "num": "2", "name": "Johny Placide", "foil": false}, {"code": "HAI3", "num": "3", "name": "Carlens Arcus", "foil": false}, {"code": "HAI4", "num": "4", "name": "Martin Expérience", "foil": false}, {"code": "HAI5", "num": "5", "name": "Jean-Kévin Duverné", "foil": false}, {"code": "HAI6", "num": "6", "name": "Ricardo Adé", "foil": false}, {"code": "HAI7", "num": "7", "name": "Duke Lacroix", "foil": false}, {"code": "HAI8", "num": "8", "name": "Garven Métusala", "foil": false}, {"code": "HAI9", "num": "9", "name": "Hannes Delcroix", "foil": false}, {"code": "HAI10", "num": "10", "name": "Leverton Pierre", "foil": false}, {"code": "HAI11", "num": "11", "name": "Danley Jean Jacques", "foil": false}, {"code": "HAI12", "num": "12", "name": "Jean-Ricner Bellegarde", "foil": false}, {"code": "HAI13", "num": "13", "name": "Foto da Seleção", "foil": false}, {"code": "HAI14", "num": "14", "name": "Christopher Attys", "foil": false}, {"code": "HAI15", "num": "15", "name": "Derrick Etienne Jr.", "foil": false}, {"code": "HAI16", "num": "16", "name": "Josué Casimir", "foil": false}, {"code": "HAI17", "num": "17", "name": "Ruben Providence", "foil": false}, {"code": "HAI18", "num": "18", "name": "Duckens Nazon", "foil": false}, {"code": "HAI19", "num": "19", "name": "Louicius Deedson", "foil": false}, {"code": "HAI20", "num": "20", "name": "Frantzdy Pierrot", "foil": false}]}, {"id": "SCO", "kind": "base", "title": "Escócia", "sub": "SCO", "items": [{"code": "SCO1", "num": "1", "name": "Escudo", "foil": true}, {"code": "SCO2", "num": "2", "name": "Angus Gunn", "foil": false}, {"code": "SCO3", "num": "3", "name": "Jack Hendry", "foil": false}, {"code": "SCO4", "num": "4", "name": "Kieran Tierney", "foil": false}, {"code": "SCO5", "num": "5", "name": "Aaron Hickey", "foil": false}, {"code": "SCO6", "num": "6", "name": "Andrew Robertson", "foil": false}, {"code": "SCO7", "num": "7", "name": "Scott McKenna", "foil": false}, {"code": "SCO8", "num": "8", "name": "John Souttar", "foil": false}, {"code": "SCO9", "num": "9", "name": "Anthony Ralston", "foil": false}, {"code": "SCO10", "num": "10", "name": "Grant Hanley", "foil": false}, {"code": "SCO11", "num": "11", "name": "Scott McTominay", "foil": false}, {"code": "SCO12", "num": "12", "name": "Billy Gilmour", "foil": false}, {"code": "SCO13", "num": "13", "name": "Foto da Seleção", "foil": false}, {"code": "SCO14", "num": "14", "name": "Lewis Ferguson", "foil": false}, {"code": "SCO15", "num": "15", "name": "Ryan Christie", "foil": false}, {"code": "SCO16", "num": "16", "name": "Kenny McLean", "foil": false}, {"code": "SCO17", "num": "17", "name": "John McGinn", "foil": false}, {"code": "SCO18", "num": "18", "name": "Lyndon Dykes", "foil": false}, {"code": "SCO19", "num": "19", "name": "Che Adams", "foil": false}, {"code": "SCO20", "num": "20", "name": "Ben Gannon-Doak", "foil": false}]}, {"id": "USA", "kind": "base", "title": "Estados Unidos", "sub": "USA", "items": [{"code": "USA1", "num": "1", "name": "Escudo", "foil": true}, {"code": "USA2", "num": "2", "name": "Matt Freese", "foil": false}, {"code": "USA3", "num": "3", "name": "Chris Richards", "foil": false}, {"code": "USA4", "num": "4", "name": "Tim Ream", "foil": false}, {"code": "USA5", "num": "5", "name": "Mark McKenzie", "foil": false}, {"code": "USA6", "num": "6", "name": "Alex Freeman", "foil": false}, {"code": "USA7", "num": "7", "name": "Antonee Robinson", "foil": false}, {"code": "USA8", "num": "8", "name": "Tyler Adams", "foil": false}, {"code": "USA9", "num": "9", "name": "Tanner Tessmann", "foil": false}, {"code": "USA10", "num": "10", "name": "Weston McKennie", "foil": false}, {"code": "USA11", "num": "11", "name": "Christian Roldan", "foil": false}, {"code": "USA12", "num": "12", "name": "Timothy Weah", "foil": false}, {"code": "USA13", "num": "13", "name": "Foto da Seleção", "foil": false}, {"code": "USA14", "num": "14", "name": "Diego Luna", "foil": false}, {"code": "USA15", "num": "15", "name": "Malik Tillman", "foil": false}, {"code": "USA16", "num": "16", "name": "Christian Pulisic", "foil": false}, {"code": "USA17", "num": "17", "name": "Brenden Aaronson", "foil": false}, {"code": "USA18", "num": "18", "name": "Ricardo Pepi", "foil": false}, {"code": "USA19", "num": "19", "name": "Haji Wright", "foil": false}, {"code": "USA20", "num": "20", "name": "Folarin Balogun", "foil": false}]}, {"id": "PAR", "kind": "base", "title": "Paraguai", "sub": "PAR", "items": [{"code": "PAR1", "num": "1", "name": "Escudo", "foil": true}, {"code": "PAR2", "num": "2", "name": "Roberto Fernández", "foil": false}, {"code": "PAR3", "num": "3", "name": "Orlando Gill", "foil": false}, {"code": "PAR4", "num": "4", "name": "Gustavo Gómez", "foil": false}, {"code": "PAR5", "num": "5", "name": "Fabián Balbuena", "foil": false}, {"code": "PAR6", "num": "6", "name": "Juan José Cáceres", "foil": false}, {"code": "PAR7", "num": "7", "name": "Omar Alderete", "foil": false}, {"code": "PAR8", "num": "8", "name": "Junior Alonso", "foil": false}, {"code": "PAR9", "num": "9", "name": "Mathías Villasanti", "foil": false}, {"code": "PAR10", "num": "10", "name": "Diego Gómez", "foil": false}, {"code": "PAR11", "num": "11", "name": "Damián Bobadilla", "foil": false}, {"code": "PAR12", "num": "12", "name": "Andrés Cubas", "foil": false}, {"code": "PAR13", "num": "13", "name": "Foto da Seleção", "foil": false}, {"code": "PAR14", "num": "14", "name": "Matías Galarza Fonda", "foil": false}, {"code": "PAR15", "num": "15", "name": "Julio Enciso", "foil": false}, {"code": "PAR16", "num": "16", "name": "Alejandro Romero Gamarra", "foil": false}, {"code": "PAR17", "num": "17", "name": "Miguel Almirón", "foil": false}, {"code": "PAR18", "num": "18", "name": "Ramón Sosa", "foil": false}, {"code": "PAR19", "num": "19", "name": "Ángel Romero", "foil": false}, {"code": "PAR20", "num": "20", "name": "Antonio Sanabria", "foil": false}]}, {"id": "AUS", "kind": "base", "title": "Austrália", "sub": "AUS", "items": [{"code": "AUS1", "num": "1", "name": "Escudo", "foil": true}, {"code": "AUS2", "num": "2", "name": "Mathew Ryan", "foil": false}, {"code": "AUS3", "num": "3", "name": "Joe Gauci", "foil": false}, {"code": "AUS4", "num": "4", "name": "Harry Souttar", "foil": false}, {"code": "AUS5", "num": "5", "name": "Alessandro Circati", "foil": false}, {"code": "AUS6", "num": "6", "name": "Jordan Bos", "foil": false}, {"code": "AUS7", "num": "7", "name": "Aziz Behich", "foil": false}, {"code": "AUS8", "num": "8", "name": "Cameron Burgess", "foil": false}, {"code": "AUS9", "num": "9", "name": "Lewis Miller", "foil": false}, {"code": "AUS10", "num": "10", "name": "Miloš Degenek", "foil": false}, {"code": "AUS11", "num": "11", "name": "Jackson Irvine", "foil": false}, {"code": "AUS12", "num": "12", "name": "Riley McGree", "foil": false}, {"code": "AUS13", "num": "13", "name": "Foto da Seleção", "foil": false}, {"code": "AUS14", "num": "14", "name": "Aiden O'Neill", "foil": false}, {"code": "AUS15", "num": "15", "name": "Connor Metcalfe", "foil": false}, {"code": "AUS16", "num": "16", "name": "Patrick Yazbek", "foil": false}, {"code": "AUS17", "num": "17", "name": "Craig Goodwin", "foil": false}, {"code": "AUS18", "num": "18", "name": "Kusini Yengi", "foil": false}, {"code": "AUS19", "num": "19", "name": "Nestory Irankunda", "foil": false}, {"code": "AUS20", "num": "20", "name": "Mohamed Touré", "foil": false}]}, {"id": "TUR", "kind": "base", "title": "Turquia", "sub": "TUR", "items": [{"code": "TUR1", "num": "1", "name": "Escudo", "foil": true}, {"code": "TUR2", "num": "2", "name": "Uğurcan Çakır", "foil": false}, {"code": "TUR3", "num": "3", "name": "Mert Müldür", "foil": false}, {"code": "TUR4", "num": "4", "name": "Zeki Çelik", "foil": false}, {"code": "TUR5", "num": "5", "name": "Abdülkerim Bardakcı", "foil": false}, {"code": "TUR6", "num": "6", "name": "Çağlar Söyüncü", "foil": false}, {"code": "TUR7", "num": "7", "name": "Merih Demiral", "foil": false}, {"code": "TUR8", "num": "8", "name": "Ferdi Kadıoğlu", "foil": false}, {"code": "TUR9", "num": "9", "name": "Kaan Ayhan", "foil": false}, {"code": "TUR10", "num": "10", "name": "İsmail Yüksek", "foil": false}, {"code": "TUR11", "num": "11", "name": "Hakan Çalhanoğlu", "foil": false}, {"code": "TUR12", "num": "12", "name": "Orkun Kökçü", "foil": false}, {"code": "TUR13", "num": "13", "name": "Foto da Seleção", "foil": false}, {"code": "TUR14", "num": "14", "name": "Arda Güler", "foil": false}, {"code": "TUR15", "num": "15", "name": "İrfan Can Kahveci", "foil": false}, {"code": "TUR16", "num": "16", "name": "Yunus Akgün", "foil": false}, {"code": "TUR17", "num": "17", "name": "Can Uzun", "foil": false}, {"code": "TUR18", "num": "18", "name": "Barış Alper Yılmaz", "foil": false}, {"code": "TUR19", "num": "19", "name": "Kerem Aktürkoğlu", "foil": false}, {"code": "TUR20", "num": "20", "name": "Kenan Yıldız", "foil": false}]}, {"id": "GER", "kind": "base", "title": "Alemanha", "sub": "GER", "items": [{"code": "GER1", "num": "1", "name": "Escudo", "foil": true}, {"code": "GER2", "num": "2", "name": "Marc-André ter Stegen", "foil": false}, {"code": "GER3", "num": "3", "name": "Jonathan Tah", "foil": false}, {"code": "GER4", "num": "4", "name": "David Raum", "foil": false}, {"code": "GER5", "num": "5", "name": "Nico Schlotterbeck", "foil": false}, {"code": "GER6", "num": "6", "name": "Antonio Rüdiger", "foil": false}, {"code": "GER7", "num": "7", "name": "Waldemar Anton", "foil": false}, {"code": "GER8", "num": "8", "name": "Ridle Baku", "foil": false}, {"code": "GER9", "num": "9", "name": "Maximilian Mittelstädt", "foil": false}, {"code": "GER10", "num": "10", "name": "Joshua Kimmich", "foil": false}, {"code": "GER11", "num": "11", "name": "Florian Wirtz", "foil": false}, {"code": "GER12", "num": "12", "name": "Felix Nmecha", "foil": false}, {"code": "GER13", "num": "13", "name": "Foto da Seleção", "foil": false}, {"code": "GER14", "num": "14", "name": "Leon Goretzka", "foil": false}, {"code": "GER15", "num": "15", "name": "Jamal Musiala", "foil": false}, {"code": "GER16", "num": "16", "name": "Serge Gnabry", "foil": false}, {"code": "GER17", "num": "17", "name": "Kai Havertz", "foil": false}, {"code": "GER18", "num": "18", "name": "Leroy Sané", "foil": false}, {"code": "GER19", "num": "19", "name": "Karim Adeyemi", "foil": false}, {"code": "GER20", "num": "20", "name": "Nick Woltemade", "foil": false}]}, {"id": "CUW", "kind": "base", "title": "Curaçao", "sub": "CUW", "items": [{"code": "CUW1", "num": "1", "name": "Escudo", "foil": true}, {"code": "CUW2", "num": "2", "name": "Eloy Room", "foil": false}, {"code": "CUW3", "num": "3", "name": "Armando Obispo", "foil": false}, {"code": "CUW4", "num": "4", "name": "Sherel Floranus", "foil": false}, {"code": "CUW5", "num": "5", "name": "Jurien Gaari", "foil": false}, {"code": "CUW6", "num": "6", "name": "Joshua Brenet", "foil": false}, {"code": "CUW7", "num": "7", "name": "Roshon van Eijma", "foil": false}, {"code": "CUW8", "num": "8", "name": "Shurandy Sambo", "foil": false}, {"code": "CUW9", "num": "9", "name": "Livano Comenencia", "foil": false}, {"code": "CUW10", "num": "10", "name": "Godfried Roemeratoe", "foil": false}, {"code": "CUW11", "num": "11", "name": "Juninho Bacuna", "foil": false}, {"code": "CUW12", "num": "12", "name": "Leandro Bacuna", "foil": false}, {"code": "CUW13", "num": "13", "name": "Foto da Seleção", "foil": false}, {"code": "CUW14", "num": "14", "name": "Tahith Chong", "foil": false}, {"code": "CUW15", "num": "15", "name": "Kenji Gorré", "foil": false}, {"code": "CUW16", "num": "16", "name": "Jearl Margaritha", "foil": false}, {"code": "CUW17", "num": "17", "name": "Jürgen Locadia", "foil": false}, {"code": "CUW18", "num": "18", "name": "Jeremy Antonisse", "foil": false}, {"code": "CUW19", "num": "19", "name": "Gervane Kastaneer", "foil": false}, {"code": "CUW20", "num": "20", "name": "Sontje Hansen", "foil": false}]}, {"id": "CIV", "kind": "base", "title": "Costa do Marfim", "sub": "CIV", "items": [{"code": "CIV1", "num": "1", "name": "Escudo", "foil": true}, {"code": "CIV2", "num": "2", "name": "Yahia Fofana", "foil": false}, {"code": "CIV3", "num": "3", "name": "Ghislain Konan", "foil": false}, {"code": "CIV4", "num": "4", "name": "Wilfried Singo", "foil": false}, {"code": "CIV5", "num": "5", "name": "Odilon Kossounou", "foil": false}, {"code": "CIV6", "num": "6", "name": "Evan Ndicka", "foil": false}, {"code": "CIV7", "num": "7", "name": "Willy Boly", "foil": false}, {"code": "CIV8", "num": "8", "name": "Emmanuel Agbadou", "foil": false}, {"code": "CIV9", "num": "9", "name": "Ousmane Diomandé", "foil": false}, {"code": "CIV10", "num": "10", "name": "Franck Kessié", "foil": false}, {"code": "CIV11", "num": "11", "name": "Seko Fofana", "foil": false}, {"code": "CIV12", "num": "12", "name": "Ibrahim Sangaré", "foil": false}, {"code": "CIV13", "num": "13", "name": "Foto da Seleção", "foil": false}, {"code": "CIV14", "num": "14", "name": "Jean-Philippe Gbamin", "foil": false}, {"code": "CIV15", "num": "15", "name": "Amad Diallo", "foil": false}, {"code": "CIV16", "num": "16", "name": "Sébastien Haller", "foil": false}, {"code": "CIV17", "num": "17", "name": "Simon Adingra", "foil": false}, {"code": "CIV18", "num": "18", "name": "Yan Diomandé", "foil": false}, {"code": "CIV19", "num": "19", "name": "Évann Guessand", "foil": false}, {"code": "CIV20", "num": "20", "name": "Oumar Diakité", "foil": false}]}, {"id": "ECU", "kind": "base", "title": "Equador", "sub": "ECU", "items": [{"code": "ECU1", "num": "1", "name": "Escudo", "foil": true}, {"code": "ECU2", "num": "2", "name": "Hernán Galíndez", "foil": false}, {"code": "ECU3", "num": "3", "name": "Gonzalo Valle", "foil": false}, {"code": "ECU4", "num": "4", "name": "Piero Hincapié", "foil": false}, {"code": "ECU5", "num": "5", "name": "Pervis Estupiñán", "foil": false}, {"code": "ECU6", "num": "6", "name": "Willian Pacho", "foil": false}, {"code": "ECU7", "num": "7", "name": "Ángelo Preciado", "foil": false}, {"code": "ECU8", "num": "8", "name": "Joel Ordóñez", "foil": false}, {"code": "ECU9", "num": "9", "name": "Moisés Caicedo", "foil": false}, {"code": "ECU10", "num": "10", "name": "Alan Franco", "foil": false}, {"code": "ECU11", "num": "11", "name": "Kendry Páez", "foil": false}, {"code": "ECU12", "num": "12", "name": "Pedro Vite", "foil": false}, {"code": "ECU13", "num": "13", "name": "Foto da Seleção", "foil": false}, {"code": "ECU14", "num": "14", "name": "John Yeboah", "foil": false}, {"code": "ECU15", "num": "15", "name": "Leonardo Campana", "foil": false}, {"code": "ECU16", "num": "16", "name": "Gonzalo Plata", "foil": false}, {"code": "ECU17", "num": "17", "name": "Nilson Angulo", "foil": false}, {"code": "ECU18", "num": "18", "name": "Alan Minda", "foil": false}, {"code": "ECU19", "num": "19", "name": "Kevin Rodríguez", "foil": false}, {"code": "ECU20", "num": "20", "name": "Enner Valencia", "foil": false}]}, {"id": "NED", "kind": "base", "title": "Holanda", "sub": "NED", "items": [{"code": "NED1", "num": "1", "name": "Escudo", "foil": true}, {"code": "NED2", "num": "2", "name": "Bart Verbruggen", "foil": false}, {"code": "NED3", "num": "3", "name": "Virgil van Dijk", "foil": false}, {"code": "NED4", "num": "4", "name": "Micky van de Ven", "foil": false}, {"code": "NED5", "num": "5", "name": "Jurriën Timber", "foil": false}, {"code": "NED6", "num": "6", "name": "Denzel Dumfries", "foil": false}, {"code": "NED7", "num": "7", "name": "Nathan Aké", "foil": false}, {"code": "NED8", "num": "8", "name": "Jeremie Frimpong", "foil": false}, {"code": "NED9", "num": "9", "name": "Jan Paul van Hecke", "foil": false}, {"code": "NED10", "num": "10", "name": "Tijjani Reijnders", "foil": false}, {"code": "NED11", "num": "11", "name": "Ryan Gravenberch", "foil": false}, {"code": "NED12", "num": "12", "name": "Teun Koopmeiners", "foil": false}, {"code": "NED13", "num": "13", "name": "Foto da Seleção", "foil": false}, {"code": "NED14", "num": "14", "name": "Frenkie de Jong", "foil": false}, {"code": "NED15", "num": "15", "name": "Xavi Simons", "foil": false}, {"code": "NED16", "num": "16", "name": "Justin Kluivert", "foil": false}, {"code": "NED17", "num": "17", "name": "Memphis Depay", "foil": false}, {"code": "NED18", "num": "18", "name": "Donyell Malen", "foil": false}, {"code": "NED19", "num": "19", "name": "Wout Weghorst", "foil": false}, {"code": "NED20", "num": "20", "name": "Cody Gakpo", "foil": false}]}, {"id": "JPN", "kind": "base", "title": "Japão", "sub": "JPN", "items": [{"code": "JPN1", "num": "1", "name": "Escudo", "foil": true}, {"code": "JPN2", "num": "2", "name": "Zion Suzuki", "foil": false}, {"code": "JPN3", "num": "3", "name": "Henry Hiroki Mochizuki", "foil": false}, {"code": "JPN4", "num": "4", "name": "Ayumu Seko", "foil": false}, {"code": "JPN5", "num": "5", "name": "Junnosuke Suzuki", "foil": false}, {"code": "JPN6", "num": "6", "name": "Shogo Taniguchi", "foil": false}, {"code": "JPN7", "num": "7", "name": "Tsuyoshi Watanabe", "foil": false}, {"code": "JPN8", "num": "8", "name": "Kaishu Sano", "foil": false}, {"code": "JPN9", "num": "9", "name": "Yuki Soma", "foil": false}, {"code": "JPN10", "num": "10", "name": "Ao Tanaka", "foil": false}, {"code": "JPN11", "num": "11", "name": "Daichi Kamada", "foil": false}, {"code": "JPN12", "num": "12", "name": "Takefusa Kubo", "foil": false}, {"code": "JPN13", "num": "13", "name": "Foto da Seleção", "foil": false}, {"code": "JPN14", "num": "14", "name": "Ritsu Doan", "foil": false}, {"code": "JPN15", "num": "15", "name": "Keito Nakamura", "foil": false}, {"code": "JPN16", "num": "16", "name": "Takumi Minamino", "foil": false}, {"code": "JPN17", "num": "17", "name": "Shuto Machino", "foil": false}, {"code": "JPN18", "num": "18", "name": "Junya Ito", "foil": false}, {"code": "JPN19", "num": "19", "name": "Kōki Ogawa", "foil": false}, {"code": "JPN20", "num": "20", "name": "Ayase Ueda", "foil": false}]}, {"id": "SWE", "kind": "base", "title": "Suécia", "sub": "SWE", "items": [{"code": "SWE1", "num": "1", "name": "Escudo", "foil": true}, {"code": "SWE2", "num": "2", "name": "Victor Johansson", "foil": false}, {"code": "SWE3", "num": "3", "name": "Isak Hien", "foil": false}, {"code": "SWE4", "num": "4", "name": "Gabriel Gudmundsson", "foil": false}, {"code": "SWE5", "num": "5", "name": "Emil Holm", "foil": false}, {"code": "SWE6", "num": "6", "name": "Victor Nilsson Lindelöf", "foil": false}, {"code": "SWE7", "num": "7", "name": "Gustaf Lagerbielke", "foil": false}, {"code": "SWE8", "num": "8", "name": "Lucas Bergvall", "foil": false}, {"code": "SWE9", "num": "9", "name": "Hugo Larsson", "foil": false}, {"code": "SWE10", "num": "10", "name": "Jesper Karlström", "foil": false}, {"code": "SWE11", "num": "11", "name": "Yasin Ayari", "foil": false}, {"code": "SWE12", "num": "12", "name": "Mattias Svanberg", "foil": false}, {"code": "SWE13", "num": "13", "name": "Foto da Seleção", "foil": false}, {"code": "SWE14", "num": "14", "name": "Daniel Svensson", "foil": false}, {"code": "SWE15", "num": "15", "name": "Ken Sema", "foil": false}, {"code": "SWE16", "num": "16", "name": "Roony Bardghji", "foil": false}, {"code": "SWE17", "num": "17", "name": "Dejan Kulusevski", "foil": false}, {"code": "SWE18", "num": "18", "name": "Anthony Elanga", "foil": false}, {"code": "SWE19", "num": "19", "name": "Alexander Isak", "foil": false}, {"code": "SWE20", "num": "20", "name": "Viktor Gyökeres", "foil": false}]}, {"id": "TUN", "kind": "base", "title": "Tunísia", "sub": "TUN", "items": [{"code": "TUN1", "num": "1", "name": "Escudo", "foil": true}, {"code": "TUN2", "num": "2", "name": "Béchir Ben Saïd", "foil": false}, {"code": "TUN3", "num": "3", "name": "Aymen Dahmen", "foil": false}, {"code": "TUN4", "num": "4", "name": "Yan Valery", "foil": false}, {"code": "TUN5", "num": "5", "name": "Montassar Talbi", "foil": false}, {"code": "TUN6", "num": "6", "name": "Yassine Meriah", "foil": false}, {"code": "TUN7", "num": "7", "name": "Ali Abdi", "foil": false}, {"code": "TUN8", "num": "8", "name": "Dylan Bronn", "foil": false}, {"code": "TUN9", "num": "9", "name": "Ellyes Skhiri", "foil": false}, {"code": "TUN10", "num": "10", "name": "Aïssa Laïdouni", "foil": false}, {"code": "TUN11", "num": "11", "name": "Ferjani Sassi", "foil": false}, {"code": "TUN12", "num": "12", "name": "Mohamed Ali Ben Romdhane", "foil": false}, {"code": "TUN13", "num": "13", "name": "Foto da Seleção", "foil": false}, {"code": "TUN14", "num": "14", "name": "Hannibal Mejbri", "foil": false}, {"code": "TUN15", "num": "15", "name": "Elias Achouri", "foil": false}, {"code": "TUN16", "num": "16", "name": "Elias Saad", "foil": false}, {"code": "TUN17", "num": "17", "name": "Hazem Mastouri", "foil": false}, {"code": "TUN18", "num": "18", "name": "Ismaël Gharbi", "foil": false}, {"code": "TUN19", "num": "19", "name": "Sayfallah Ltaief", "foil": false}, {"code": "TUN20", "num": "20", "name": "Naïm Sliti", "foil": false}]}, {"id": "BEL", "kind": "base", "title": "Bélgica", "sub": "BEL", "items": [{"code": "BEL1", "num": "1", "name": "Escudo", "foil": true}, {"code": "BEL2", "num": "2", "name": "Thibaut Courtois", "foil": false}, {"code": "BEL3", "num": "3", "name": "Arthur Theate", "foil": false}, {"code": "BEL4", "num": "4", "name": "Timothy Castagne", "foil": false}, {"code": "BEL5", "num": "5", "name": "Zeno Debast", "foil": false}, {"code": "BEL6", "num": "6", "name": "Brandon Mechele", "foil": false}, {"code": "BEL7", "num": "7", "name": "Maxim De Cuyper", "foil": false}, {"code": "BEL8", "num": "8", "name": "Thomas Meunier", "foil": false}, {"code": "BEL9", "num": "9", "name": "Youri Tielemans", "foil": false}, {"code": "BEL10", "num": "10", "name": "Amadou Onana", "foil": false}, {"code": "BEL11", "num": "11", "name": "Nicolas Raskin", "foil": false}, {"code": "BEL12", "num": "12", "name": "Alexis Saelemaekers", "foil": false}, {"code": "BEL13", "num": "13", "name": "Foto da Seleção", "foil": false}, {"code": "BEL14", "num": "14", "name": "Hans Vanaken", "foil": false}, {"code": "BEL15", "num": "15", "name": "Kevin De Bruyne", "foil": false}, {"code": "BEL16", "num": "16", "name": "Jérémy Doku", "foil": false}, {"code": "BEL17", "num": "17", "name": "Charles De Ketelaere", "foil": false}, {"code": "BEL18", "num": "18", "name": "Leandro Trossard", "foil": false}, {"code": "BEL19", "num": "19", "name": "Loïs Openda", "foil": false}, {"code": "BEL20", "num": "20", "name": "Romelu Lukaku", "foil": false}]}, {"id": "EGY", "kind": "base", "title": "Egito", "sub": "EGY", "items": [{"code": "EGY1", "num": "1", "name": "Escudo", "foil": true}, {"code": "EGY2", "num": "2", "name": "Mohamed El Shenawy", "foil": false}, {"code": "EGY3", "num": "3", "name": "Mohamed Hany", "foil": false}, {"code": "EGY4", "num": "4", "name": "Mohamed Hamdy", "foil": false}, {"code": "EGY5", "num": "5", "name": "Yasser Ibrahim", "foil": false}, {"code": "EGY6", "num": "6", "name": "Khaled Sobhi", "foil": false}, {"code": "EGY7", "num": "7", "name": "Ramy Rabia", "foil": false}, {"code": "EGY8", "num": "8", "name": "Hossam Abdelmaguid", "foil": false}, {"code": "EGY9", "num": "9", "name": "Ahmed Fatouh", "foil": false}, {"code": "EGY10", "num": "10", "name": "Marwan Attia", "foil": false}, {"code": "EGY11", "num": "11", "name": "Zizo", "foil": false}, {"code": "EGY12", "num": "12", "name": "Hamdy Fathy", "foil": false}, {"code": "EGY13", "num": "13", "name": "Foto da Seleção", "foil": false}, {"code": "EGY14", "num": "14", "name": "Mohamed Lasheen", "foil": false}, {"code": "EGY15", "num": "15", "name": "Emam Ashour", "foil": false}, {"code": "EGY16", "num": "16", "name": "Osama Faisal", "foil": false}, {"code": "EGY17", "num": "17", "name": "Mohamed Salah", "foil": false}, {"code": "EGY18", "num": "18", "name": "Mostafa Mohamed", "foil": false}, {"code": "EGY19", "num": "19", "name": "Trézéguet", "foil": false}, {"code": "EGY20", "num": "20", "name": "Omar Marmoush", "foil": false}]}, {"id": "IRN", "kind": "base", "title": "Irã", "sub": "IRN", "items": [{"code": "IRN1", "num": "1", "name": "Escudo", "foil": true}, {"code": "IRN2", "num": "2", "name": "Alireza Beiranvand", "foil": false}, {"code": "IRN3", "num": "3", "name": "Morteza Pouraliganji", "foil": false}, {"code": "IRN4", "num": "4", "name": "Ehsan Hajsafi", "foil": false}, {"code": "IRN5", "num": "5", "name": "Milad Mohammadi", "foil": false}, {"code": "IRN6", "num": "6", "name": "Shojae Khalilzadeh", "foil": false}, {"code": "IRN7", "num": "7", "name": "Ramin Rezaeian", "foil": false}, {"code": "IRN8", "num": "8", "name": "Hossein Kanaani", "foil": false}, {"code": "IRN9", "num": "9", "name": "Sadegh Moharrami", "foil": false}, {"code": "IRN10", "num": "10", "name": "Saleh Hardani", "foil": false}, {"code": "IRN11", "num": "11", "name": "Saeed Ezatolahi", "foil": false}, {"code": "IRN12", "num": "12", "name": "Saman Ghoddos", "foil": false}, {"code": "IRN13", "num": "13", "name": "Foto da Seleção", "foil": false}, {"code": "IRN14", "num": "14", "name": "Omid Noorafkan", "foil": false}, {"code": "IRN15", "num": "15", "name": "Roozbeh Cheshmi", "foil": false}, {"code": "IRN16", "num": "16", "name": "Mohammad Mohebi", "foil": false}, {"code": "IRN17", "num": "17", "name": "Sardar Azmoun", "foil": false}, {"code": "IRN18", "num": "18", "name": "Mehdi Taremi", "foil": false}, {"code": "IRN19", "num": "19", "name": "Alireza Jahanbakhsh", "foil": false}, {"code": "IRN20", "num": "20", "name": "Ali Gholizadeh", "foil": false}]}, {"id": "NZL", "kind": "base", "title": "Nova Zelândia", "sub": "NZL", "items": [{"code": "NZL1", "num": "1", "name": "Escudo", "foil": true}, {"code": "NZL2", "num": "2", "name": "Max Crocombe", "foil": false}, {"code": "NZL3", "num": "3", "name": "Alex Paulsen", "foil": false}, {"code": "NZL4", "num": "4", "name": "Michael Boxall", "foil": false}, {"code": "NZL5", "num": "5", "name": "Liberato Cacace", "foil": false}, {"code": "NZL6", "num": "6", "name": "Tim Payne", "foil": false}, {"code": "NZL7", "num": "7", "name": "Tyler Bindon", "foil": false}, {"code": "NZL8", "num": "8", "name": "Francis de Vries", "foil": false}, {"code": "NZL9", "num": "9", "name": "Finn Surman", "foil": false}, {"code": "NZL10", "num": "10", "name": "Joe Bell", "foil": false}, {"code": "NZL11", "num": "11", "name": "Sarpreet Singh", "foil": false}, {"code": "NZL12", "num": "12", "name": "Ryan Thomas", "foil": false}, {"code": "NZL13", "num": "13", "name": "Foto da Seleção", "foil": false}, {"code": "NZL14", "num": "14", "name": "Matthew Garbett", "foil": false}, {"code": "NZL15", "num": "15", "name": "Marko Stamenić", "foil": false}, {"code": "NZL16", "num": "16", "name": "Ben Old", "foil": false}, {"code": "NZL17", "num": "17", "name": "Chris Wood", "foil": false}, {"code": "NZL18", "num": "18", "name": "Elijah Just", "foil": false}, {"code": "NZL19", "num": "19", "name": "Callum McCowatt", "foil": false}, {"code": "NZL20", "num": "20", "name": "Kosta Barbarouses", "foil": false}]}, {"id": "ESP", "kind": "base", "title": "Espanha", "sub": "ESP", "items": [{"code": "ESP1", "num": "1", "name": "Escudo", "foil": true}, {"code": "ESP2", "num": "2", "name": "Unai Simón", "foil": false}, {"code": "ESP3", "num": "3", "name": "Robin Le Normand", "foil": false}, {"code": "ESP4", "num": "4", "name": "Aymeric Laporte", "foil": false}, {"code": "ESP5", "num": "5", "name": "Dean Huijsen", "foil": false}, {"code": "ESP6", "num": "6", "name": "Pedro Porro", "foil": false}, {"code": "ESP7", "num": "7", "name": "Dani Carvajal", "foil": false}, {"code": "ESP8", "num": "8", "name": "Marc Cucurella", "foil": false}, {"code": "ESP9", "num": "9", "name": "Martín Zubimendi", "foil": false}, {"code": "ESP10", "num": "10", "name": "Rodri", "foil": false}, {"code": "ESP11", "num": "11", "name": "Pedri", "foil": false}, {"code": "ESP12", "num": "12", "name": "Fabián Ruiz", "foil": false}, {"code": "ESP13", "num": "13", "name": "Foto da Seleção", "foil": false}, {"code": "ESP14", "num": "14", "name": "Mikel Merino", "foil": false}, {"code": "ESP15", "num": "15", "name": "Lamine Yamal", "foil": false}, {"code": "ESP16", "num": "16", "name": "Dani Olmo", "foil": false}, {"code": "ESP17", "num": "17", "name": "Nico Williams", "foil": false}, {"code": "ESP18", "num": "18", "name": "Ferran Torres", "foil": false}, {"code": "ESP19", "num": "19", "name": "Álvaro Morata", "foil": false}, {"code": "ESP20", "num": "20", "name": "Mikel Oyarzabal", "foil": false}]}, {"id": "CPV", "kind": "base", "title": "Cabo Verde", "sub": "CPV", "items": [{"code": "CPV1", "num": "1", "name": "Escudo", "foil": true}, {"code": "CPV2", "num": "2", "name": "Vozinha", "foil": false}, {"code": "CPV3", "num": "3", "name": "Logan Costa", "foil": false}, {"code": "CPV4", "num": "4", "name": "Pico", "foil": false}, {"code": "CPV5", "num": "5", "name": "Diney", "foil": false}, {"code": "CPV6", "num": "6", "name": "Steven Moreira", "foil": false}, {"code": "CPV7", "num": "7", "name": "Wagner Pina", "foil": false}, {"code": "CPV8", "num": "8", "name": "João Paulo", "foil": false}, {"code": "CPV9", "num": "9", "name": "Yannick Semedo", "foil": false}, {"code": "CPV10", "num": "10", "name": "Kevin Pina", "foil": false}, {"code": "CPV11", "num": "11", "name": "Patrick Andrade", "foil": false}, {"code": "CPV12", "num": "12", "name": "Jamiro Monteiro", "foil": false}, {"code": "CPV13", "num": "13", "name": "Foto da Seleção", "foil": false}, {"code": "CPV14", "num": "14", "name": "Deroy Duarte", "foil": false}, {"code": "CPV15", "num": "15", "name": "Garry Rodrigues", "foil": false}, {"code": "CPV16", "num": "16", "name": "Jovane Cabral", "foil": false}, {"code": "CPV17", "num": "17", "name": "Ryan Mendes", "foil": false}, {"code": "CPV18", "num": "18", "name": "Dailon Livramento", "foil": false}, {"code": "CPV19", "num": "19", "name": "Willy Semedo", "foil": false}, {"code": "CPV20", "num": "20", "name": "Bebé", "foil": false}]}, {"id": "KSA", "kind": "base", "title": "Arábia Saudita", "sub": "KSA", "items": [{"code": "KSA1", "num": "1", "name": "Escudo", "foil": true}, {"code": "KSA2", "num": "2", "name": "Nawaf Alaqidi", "foil": false}, {"code": "KSA3", "num": "3", "name": "Abdulrahman Al-Sanbi", "foil": false}, {"code": "KSA4", "num": "4", "name": "Saud Abdulhamid", "foil": false}, {"code": "KSA5", "num": "5", "name": "Nawaf Boushal", "foil": false}, {"code": "KSA6", "num": "6", "name": "Jihad Thakri", "foil": false}, {"code": "KSA7", "num": "7", "name": "Moteb Al-Harbi", "foil": false}, {"code": "KSA8", "num": "8", "name": "Hassan Al-Tambakti", "foil": false}, {"code": "KSA9", "num": "9", "name": "Musab Al-Juwayr", "foil": false}, {"code": "KSA10", "num": "10", "name": "Ziyad Al-Johani", "foil": false}, {"code": "KSA11", "num": "11", "name": "Abdullah Al-Khaibari", "foil": false}, {"code": "KSA12", "num": "12", "name": "Nasser Al-Dawsari", "foil": false}, {"code": "KSA13", "num": "13", "name": "Foto da Seleção", "foil": false}, {"code": "KSA14", "num": "14", "name": "Saleh Abu Alshamat", "foil": false}, {"code": "KSA15", "num": "15", "name": "Marwan Al-Sahafi", "foil": false}, {"code": "KSA16", "num": "16", "name": "Salem Al-Dawsari", "foil": false}, {"code": "KSA17", "num": "17", "name": "Abdulrahman Al-Aboud", "foil": false}, {"code": "KSA18", "num": "18", "name": "Feras Al-Brikan", "foil": false}, {"code": "KSA19", "num": "19", "name": "Saleh Al-Shehri", "foil": false}, {"code": "KSA20", "num": "20", "name": "Abdullah Al-Hamdan", "foil": false}]}, {"id": "URU", "kind": "base", "title": "Uruguai", "sub": "URU", "items": [{"code": "URU1", "num": "1", "name": "Escudo", "foil": true}, {"code": "URU2", "num": "2", "name": "Sergio Rochet", "foil": false}, {"code": "URU3", "num": "3", "name": "Santiago Mele", "foil": false}, {"code": "URU4", "num": "4", "name": "Ronald Araújo", "foil": false}, {"code": "URU5", "num": "5", "name": "José María Giménez", "foil": false}, {"code": "URU6", "num": "6", "name": "Sebastián Cáceres", "foil": false}, {"code": "URU7", "num": "7", "name": "Mathías Olivera", "foil": false}, {"code": "URU8", "num": "8", "name": "Guillermo Varela", "foil": false}, {"code": "URU9", "num": "9", "name": "Nahitan Nández", "foil": false}, {"code": "URU10", "num": "10", "name": "Federico Valverde", "foil": false}, {"code": "URU11", "num": "11", "name": "Giorgian de Arrascaeta", "foil": false}, {"code": "URU12", "num": "12", "name": "Rodrigo Bentancur", "foil": false}, {"code": "URU13", "num": "13", "name": "Foto da Seleção", "foil": false}, {"code": "URU14", "num": "14", "name": "Manuel Ugarte", "foil": false}, {"code": "URU15", "num": "15", "name": "Nicolás de la Cruz", "foil": false}, {"code": "URU16", "num": "16", "name": "Maxi Araújo", "foil": false}, {"code": "URU17", "num": "17", "name": "Darwin Núñez", "foil": false}, {"code": "URU18", "num": "18", "name": "Federico Viñas", "foil": false}, {"code": "URU19", "num": "19", "name": "Rodrigo Aguirre", "foil": false}, {"code": "URU20", "num": "20", "name": "Facundo Pellistri", "foil": false}]}, {"id": "FRA", "kind": "base", "title": "França", "sub": "FRA", "items": [{"code": "FRA1", "num": "1", "name": "Escudo", "foil": true}, {"code": "FRA2", "num": "2", "name": "Mike Maignan", "foil": false}, {"code": "FRA3", "num": "3", "name": "Theo Hernández", "foil": false}, {"code": "FRA4", "num": "4", "name": "William Saliba", "foil": false}, {"code": "FRA5", "num": "5", "name": "Jules Koundé", "foil": false}, {"code": "FRA6", "num": "6", "name": "Ibrahima Konaté", "foil": false}, {"code": "FRA7", "num": "7", "name": "Dayot Upamecano", "foil": false}, {"code": "FRA8", "num": "8", "name": "Lucas Digne", "foil": false}, {"code": "FRA9", "num": "9", "name": "Aurélien Tchouaméni", "foil": false}, {"code": "FRA10", "num": "10", "name": "Eduardo Camavinga", "foil": false}, {"code": "FRA11", "num": "11", "name": "Manu Koné", "foil": false}, {"code": "FRA12", "num": "12", "name": "Adrien Rabiot", "foil": false}, {"code": "FRA13", "num": "13", "name": "Foto da Seleção", "foil": false}, {"code": "FRA14", "num": "14", "name": "Michael Olise", "foil": false}, {"code": "FRA15", "num": "15", "name": "Ousmane Dembélé", "foil": false}, {"code": "FRA16", "num": "16", "name": "Bradley Barcola", "foil": false}, {"code": "FRA17", "num": "17", "name": "Désiré Doué", "foil": false}, {"code": "FRA18", "num": "18", "name": "Kingsley Coman", "foil": false}, {"code": "FRA19", "num": "19", "name": "Hugo Ekitiké", "foil": false}, {"code": "FRA20", "num": "20", "name": "Kylian Mbappé", "foil": false}]}, {"id": "SEN", "kind": "base", "title": "Senegal", "sub": "SEN", "items": [{"code": "SEN1", "num": "1", "name": "Escudo", "foil": true}, {"code": "SEN2", "num": "2", "name": "Édouard Mendy", "foil": false}, {"code": "SEN3", "num": "3", "name": "Yehvann Diouf", "foil": false}, {"code": "SEN4", "num": "4", "name": "Moussa Niakhaté", "foil": false}, {"code": "SEN5", "num": "5", "name": "Abdoulaye Seck", "foil": false}, {"code": "SEN6", "num": "6", "name": "Ismail Jakobs", "foil": false}, {"code": "SEN7", "num": "7", "name": "El Hadji Malick Diouf", "foil": false}, {"code": "SEN8", "num": "8", "name": "Kalidou Koulibaly", "foil": false}, {"code": "SEN9", "num": "9", "name": "Idrissa Gana Gueye", "foil": false}, {"code": "SEN10", "num": "10", "name": "Pape Matar Sarr", "foil": false}, {"code": "SEN11", "num": "11", "name": "Pape Gueye", "foil": false}, {"code": "SEN12", "num": "12", "name": "Habib Diarra", "foil": false}, {"code": "SEN13", "num": "13", "name": "Foto da Seleção", "foil": false}, {"code": "SEN14", "num": "14", "name": "Lamine Camara", "foil": false}, {"code": "SEN15", "num": "15", "name": "Sadio Mané", "foil": false}, {"code": "SEN16", "num": "16", "name": "Ismaïla Sarr", "foil": false}, {"code": "SEN17", "num": "17", "name": "Boulaye Dia", "foil": false}, {"code": "SEN18", "num": "18", "name": "Iliman Ndiaye", "foil": false}, {"code": "SEN19", "num": "19", "name": "Nicolas Jackson", "foil": false}, {"code": "SEN20", "num": "20", "name": "Krépin Diatta", "foil": false}]}, {"id": "IRQ", "kind": "base", "title": "Iraque", "sub": "IRQ", "items": [{"code": "IRQ1", "num": "1", "name": "Escudo", "foil": true}, {"code": "IRQ2", "num": "2", "name": "Jalal Hassan", "foil": false}, {"code": "IRQ3", "num": "3", "name": "Rebin Sulaka", "foil": false}, {"code": "IRQ4", "num": "4", "name": "Hussein Ali", "foil": false}, {"code": "IRQ5", "num": "5", "name": "Akam Hashem", "foil": false}, {"code": "IRQ6", "num": "6", "name": "Merchas Doski", "foil": false}, {"code": "IRQ7", "num": "7", "name": "Zaid Tahseen", "foil": false}, {"code": "IRQ8", "num": "8", "name": "Manaf Younis", "foil": false}, {"code": "IRQ9", "num": "9", "name": "Zidane Iqbal", "foil": false}, {"code": "IRQ10", "num": "10", "name": "Amir Al-Ammari", "foil": false}, {"code": "IRQ11", "num": "11", "name": "Ibrahim Bayesh", "foil": false}, {"code": "IRQ12", "num": "12", "name": "Ali Jasim", "foil": false}, {"code": "IRQ13", "num": "13", "name": "Foto da Seleção", "foil": false}, {"code": "IRQ14", "num": "14", "name": "Youssef Amyn", "foil": false}, {"code": "IRQ15", "num": "15", "name": "Aymen Hussein", "foil": false}, {"code": "IRQ16", "num": "16", "name": "Aimar Sher", "foil": false}, {"code": "IRQ17", "num": "17", "name": "Marko Farji", "foil": false}, {"code": "IRQ18", "num": "18", "name": "Osama Rashid", "foil": false}, {"code": "IRQ19", "num": "19", "name": "Ali Al-Hamadi", "foil": false}, {"code": "IRQ20", "num": "20", "name": "Mohanad Ali", "foil": false}]}, {"id": "NOR", "kind": "base", "title": "Noruega", "sub": "NOR", "items": [{"code": "NOR1", "num": "1", "name": "Escudo", "foil": true}, {"code": "NOR2", "num": "2", "name": "Ørjan Nyland", "foil": false}, {"code": "NOR3", "num": "3", "name": "Julian Ryerson", "foil": false}, {"code": "NOR4", "num": "4", "name": "Leo Østigård", "foil": false}, {"code": "NOR5", "num": "5", "name": "Kristoffer Ajer", "foil": false}, {"code": "NOR6", "num": "6", "name": "Marcus Holmgren Pedersen", "foil": false}, {"code": "NOR7", "num": "7", "name": "David Møller Wolfe", "foil": false}, {"code": "NOR8", "num": "8", "name": "Torbjørn Heggem", "foil": false}, {"code": "NOR9", "num": "9", "name": "Morten Thorsby", "foil": false}, {"code": "NOR10", "num": "10", "name": "Martin Ødegaard", "foil": false}, {"code": "NOR11", "num": "11", "name": "Sander Berge", "foil": false}, {"code": "NOR12", "num": "12", "name": "Andreas Schjelderup", "foil": false}, {"code": "NOR13", "num": "13", "name": "Foto da Seleção", "foil": false}, {"code": "NOR14", "num": "14", "name": "Patrick Berg", "foil": false}, {"code": "NOR15", "num": "15", "name": "Erling Haaland", "foil": false}, {"code": "NOR16", "num": "16", "name": "Alexander Sørloth", "foil": false}, {"code": "NOR17", "num": "17", "name": "Aron Dønnum", "foil": false}, {"code": "NOR18", "num": "18", "name": "Jørgen Strand Larsen", "foil": false}, {"code": "NOR19", "num": "19", "name": "Antonio Nusa", "foil": false}, {"code": "NOR20", "num": "20", "name": "Oscar Bobb", "foil": false}]}, {"id": "ARG", "kind": "base", "title": "Argentina", "sub": "ARG", "items": [{"code": "ARG1", "num": "1", "name": "Escudo", "foil": true}, {"code": "ARG2", "num": "2", "name": "Emiliano Martínez", "foil": false}, {"code": "ARG3", "num": "3", "name": "Nahuel Molina", "foil": false}, {"code": "ARG4", "num": "4", "name": "Cristian Romero", "foil": false}, {"code": "ARG5", "num": "5", "name": "Nicolás Otamendi", "foil": false}, {"code": "ARG6", "num": "6", "name": "Nicolás Tagliafico", "foil": false}, {"code": "ARG7", "num": "7", "name": "Leonardo Balerdi", "foil": false}, {"code": "ARG8", "num": "8", "name": "Enzo Fernández", "foil": false}, {"code": "ARG9", "num": "9", "name": "Alexis Mac Allister", "foil": false}, {"code": "ARG10", "num": "10", "name": "Rodrigo De Paul", "foil": false}, {"code": "ARG11", "num": "11", "name": "Exequiel Palacios", "foil": false}, {"code": "ARG12", "num": "12", "name": "Leandro Paredes", "foil": false}, {"code": "ARG13", "num": "13", "name": "Foto da Seleção", "foil": false}, {"code": "ARG14", "num": "14", "name": "Nico Paz", "foil": false}, {"code": "ARG15", "num": "15", "name": "Franco Mastantuono", "foil": false}, {"code": "ARG16", "num": "16", "name": "Nico González", "foil": false}, {"code": "ARG17", "num": "17", "name": "Lionel Messi", "foil": false}, {"code": "ARG18", "num": "18", "name": "Lautaro Martínez", "foil": false}, {"code": "ARG19", "num": "19", "name": "Julián Álvarez", "foil": false}, {"code": "ARG20", "num": "20", "name": "Giuliano Simeone", "foil": false}]}, {"id": "ALG", "kind": "base", "title": "Argélia", "sub": "ALG", "items": [{"code": "ALG1", "num": "1", "name": "Escudo", "foil": true}, {"code": "ALG2", "num": "2", "name": "Alexis Guendouz", "foil": false}, {"code": "ALG3", "num": "3", "name": "Ramy Bensebaïni", "foil": false}, {"code": "ALG4", "num": "4", "name": "Youcef Atal", "foil": false}, {"code": "ALG5", "num": "5", "name": "Rayan Aït-Nouri", "foil": false}, {"code": "ALG6", "num": "6", "name": "Mohamed Amine Tougai", "foil": false}, {"code": "ALG7", "num": "7", "name": "Aïssa Mandi", "foil": false}, {"code": "ALG8", "num": "8", "name": "Ismaël Bennacer", "foil": false}, {"code": "ALG9", "num": "9", "name": "Houssem Aouar", "foil": false}, {"code": "ALG10", "num": "10", "name": "Hicham Boudaoui", "foil": false}, {"code": "ALG11", "num": "11", "name": "Ramiz Zerrouki", "foil": false}, {"code": "ALG12", "num": "12", "name": "Nabil Bentaleb", "foil": false}, {"code": "ALG13", "num": "13", "name": "Foto da Seleção", "foil": false}, {"code": "ALG14", "num": "14", "name": "Farès Chaïbi", "foil": false}, {"code": "ALG15", "num": "15", "name": "Riyad Mahrez", "foil": false}, {"code": "ALG16", "num": "16", "name": "Saïd Benrahma", "foil": false}, {"code": "ALG17", "num": "17", "name": "Anis Hadj Moussa", "foil": false}, {"code": "ALG18", "num": "18", "name": "Amine Gouiri", "foil": false}, {"code": "ALG19", "num": "19", "name": "Baghdad Bounedjah", "foil": false}, {"code": "ALG20", "num": "20", "name": "Mohamed Amoura", "foil": false}]}, {"id": "AUT", "kind": "base", "title": "Áustria", "sub": "AUT", "items": [{"code": "AUT1", "num": "1", "name": "Escudo", "foil": true}, {"code": "AUT2", "num": "2", "name": "Alexander Schlager", "foil": false}, {"code": "AUT3", "num": "3", "name": "Patrick Pentz", "foil": false}, {"code": "AUT4", "num": "4", "name": "David Alaba", "foil": false}, {"code": "AUT5", "num": "5", "name": "Kevin Danso", "foil": false}, {"code": "AUT6", "num": "6", "name": "Philipp Lienhart", "foil": false}, {"code": "AUT7", "num": "7", "name": "Stefan Posch", "foil": false}, {"code": "AUT8", "num": "8", "name": "Phillipp Mwene", "foil": false}, {"code": "AUT9", "num": "9", "name": "Alexander Prass", "foil": false}, {"code": "AUT10", "num": "10", "name": "Xaver Schlager", "foil": false}, {"code": "AUT11", "num": "11", "name": "Marcel Sabitzer", "foil": false}, {"code": "AUT12", "num": "12", "name": "Konrad Laimer", "foil": false}, {"code": "AUT13", "num": "13", "name": "Foto da Seleção", "foil": false}, {"code": "AUT14", "num": "14", "name": "Florian Grillitsch", "foil": false}, {"code": "AUT15", "num": "15", "name": "Nicolas Seiwald", "foil": false}, {"code": "AUT16", "num": "16", "name": "Romano Schmid", "foil": false}, {"code": "AUT17", "num": "17", "name": "Patrick Wimmer", "foil": false}, {"code": "AUT18", "num": "18", "name": "Christoph Baumgartner", "foil": false}, {"code": "AUT19", "num": "19", "name": "Michael Gregoritsch", "foil": false}, {"code": "AUT20", "num": "20", "name": "Marko Arnautović", "foil": false}]}, {"id": "JOR", "kind": "base", "title": "Jordânia", "sub": "JOR", "items": [{"code": "JOR1", "num": "1", "name": "Escudo", "foil": true}, {"code": "JOR2", "num": "2", "name": "Yazeed Abulaila", "foil": false}, {"code": "JOR3", "num": "3", "name": "Ihsan Haddad", "foil": false}, {"code": "JOR4", "num": "4", "name": "Mohammad Abu Hashish", "foil": false}, {"code": "JOR5", "num": "5", "name": "Yazan Al-Arab", "foil": false}, {"code": "JOR6", "num": "6", "name": "Abdallah Nasib", "foil": false}, {"code": "JOR7", "num": "7", "name": "Saleem Obaid", "foil": false}, {"code": "JOR8", "num": "8", "name": "Mohammad Abu Alnadi", "foil": false}, {"code": "JOR9", "num": "9", "name": "Ibrahim Saadeh", "foil": false}, {"code": "JOR10", "num": "10", "name": "Nizar Al-Rashdan", "foil": false}, {"code": "JOR11", "num": "11", "name": "Noor Al-Rawabdeh", "foil": false}, {"code": "JOR12", "num": "12", "name": "Mohannad Abu Taha", "foil": false}, {"code": "JOR13", "num": "13", "name": "Foto da Seleção", "foil": false}, {"code": "JOR14", "num": "14", "name": "Amer Jamous", "foil": false}, {"code": "JOR15", "num": "15", "name": "Mousa Al-Taamari", "foil": false}, {"code": "JOR16", "num": "16", "name": "Yazan Al-Naimat", "foil": false}, {"code": "JOR17", "num": "17", "name": "Mahmoud Al-Mardi", "foil": false}, {"code": "JOR18", "num": "18", "name": "Ali Olwan", "foil": false}, {"code": "JOR19", "num": "19", "name": "Mohammad Abu Zrayq", "foil": false}, {"code": "JOR20", "num": "20", "name": "Ibrahim Sabra", "foil": false}]}, {"id": "POR", "kind": "base", "title": "Portugal", "sub": "POR", "items": [{"code": "POR1", "num": "1", "name": "Escudo", "foil": true}, {"code": "POR2", "num": "2", "name": "Diogo Costa", "foil": false}, {"code": "POR3", "num": "3", "name": "José Sá", "foil": false}, {"code": "POR4", "num": "4", "name": "Rúben Dias", "foil": false}, {"code": "POR5", "num": "5", "name": "João Cancelo", "foil": false}, {"code": "POR6", "num": "6", "name": "Diogo Dalot", "foil": false}, {"code": "POR7", "num": "7", "name": "Nuno Mendes", "foil": false}, {"code": "POR8", "num": "8", "name": "Gonçalo Inácio", "foil": false}, {"code": "POR9", "num": "9", "name": "Bernardo Silva", "foil": false}, {"code": "POR10", "num": "10", "name": "Bruno Fernandes", "foil": false}, {"code": "POR11", "num": "11", "name": "Rúben Neves", "foil": false}, {"code": "POR12", "num": "12", "name": "Vitinha", "foil": false}, {"code": "POR13", "num": "13", "name": "Foto da Seleção", "foil": false}, {"code": "POR14", "num": "14", "name": "João Neves", "foil": false}, {"code": "POR15", "num": "15", "name": "Cristiano Ronaldo", "foil": false}, {"code": "POR16", "num": "16", "name": "Francisco Trincão", "foil": false}, {"code": "POR17", "num": "17", "name": "João Félix", "foil": false}, {"code": "POR18", "num": "18", "name": "Gonçalo Ramos", "foil": false}, {"code": "POR19", "num": "19", "name": "Pedro Neto", "foil": false}, {"code": "POR20", "num": "20", "name": "Rafael Leão", "foil": false}]}, {"id": "COD", "kind": "base", "title": "Congo (RD)", "sub": "COD", "items": [{"code": "COD1", "num": "1", "name": "Escudo", "foil": true}, {"code": "COD2", "num": "2", "name": "Lionel Mpasi", "foil": false}, {"code": "COD3", "num": "3", "name": "Aaron Wan-Bissaka", "foil": false}, {"code": "COD4", "num": "4", "name": "Axel Tuanzebe", "foil": false}, {"code": "COD5", "num": "5", "name": "Arthur Masuaku", "foil": false}, {"code": "COD6", "num": "6", "name": "Chancel Mbemba", "foil": false}, {"code": "COD7", "num": "7", "name": "Joris Kayembe", "foil": false}, {"code": "COD8", "num": "8", "name": "Charles Pickel", "foil": false}, {"code": "COD9", "num": "9", "name": "Ngal'ayel Mukau", "foil": false}, {"code": "COD10", "num": "10", "name": "Edo Kayembe", "foil": false}, {"code": "COD11", "num": "11", "name": "Samuel Moutoussamy", "foil": false}, {"code": "COD12", "num": "12", "name": "Noah Sadiki", "foil": false}, {"code": "COD13", "num": "13", "name": "Foto da Seleção", "foil": false}, {"code": "COD14", "num": "14", "name": "Théo Bongonda", "foil": false}, {"code": "COD15", "num": "15", "name": "Meschack Elia", "foil": false}, {"code": "COD16", "num": "16", "name": "Yoane Wissa", "foil": false}, {"code": "COD17", "num": "17", "name": "Brian Cipenga", "foil": false}, {"code": "COD18", "num": "18", "name": "Fiston Mayele", "foil": false}, {"code": "COD19", "num": "19", "name": "Cédric Bakambu", "foil": false}, {"code": "COD20", "num": "20", "name": "Nathanaël Mbuku", "foil": false}]}, {"id": "UZB", "kind": "base", "title": "Uzbequistão", "sub": "UZB", "items": [{"code": "UZB1", "num": "1", "name": "Escudo", "foil": true}, {"code": "UZB2", "num": "2", "name": "Utkir Yusupov", "foil": false}, {"code": "UZB3", "num": "3", "name": "Farrukh Sayfiev", "foil": false}, {"code": "UZB4", "num": "4", "name": "Sherzod Nasrullaev", "foil": false}, {"code": "UZB5", "num": "5", "name": "Umar Eshmurodov", "foil": false}, {"code": "UZB6", "num": "6", "name": "Husniddin Aliqulov", "foil": false}, {"code": "UZB7", "num": "7", "name": "Rustamjon Ashurmatov", "foil": false}, {"code": "UZB8", "num": "8", "name": "Khojiakbar Alijonov", "foil": false}, {"code": "UZB9", "num": "9", "name": "Abdukodir Khusanov", "foil": false}, {"code": "UZB10", "num": "10", "name": "Odiljon Hamrobekov", "foil": false}, {"code": "UZB11", "num": "11", "name": "Otabek Shukurov", "foil": false}, {"code": "UZB12", "num": "12", "name": "Jamshid Iskanderov", "foil": false}, {"code": "UZB13", "num": "13", "name": "Foto da Seleção", "foil": false}, {"code": "UZB14", "num": "14", "name": "Azizbek Turgunboev", "foil": false}, {"code": "UZB15", "num": "15", "name": "Khojimat Erkinov", "foil": false}, {"code": "UZB16", "num": "16", "name": "Eldor Shomurodov", "foil": false}, {"code": "UZB17", "num": "17", "name": "Oston Urunov", "foil": false}, {"code": "UZB18", "num": "18", "name": "Jaloliddin Masharipov", "foil": false}, {"code": "UZB19", "num": "19", "name": "Igor Sergeev", "foil": false}, {"code": "UZB20", "num": "20", "name": "Abbosbek Fayzullaev", "foil": false}]}, {"id": "COL", "kind": "base", "title": "Colômbia", "sub": "COL", "items": [{"code": "COL1", "num": "1", "name": "Escudo", "foil": true}, {"code": "COL2", "num": "2", "name": "Camilo Vargas", "foil": false}, {"code": "COL3", "num": "3", "name": "David Ospina", "foil": false}, {"code": "COL4", "num": "4", "name": "Dávinson Sánchez", "foil": false}, {"code": "COL5", "num": "5", "name": "Yerry Mina", "foil": false}, {"code": "COL6", "num": "6", "name": "Daniel Muñoz", "foil": false}, {"code": "COL7", "num": "7", "name": "Johan Mojica", "foil": false}, {"code": "COL8", "num": "8", "name": "Jhon Lucumí", "foil": false}, {"code": "COL9", "num": "9", "name": "Santiago Arias", "foil": false}, {"code": "COL10", "num": "10", "name": "Jefferson Lerma", "foil": false}, {"code": "COL11", "num": "11", "name": "Kevin Castaño", "foil": false}, {"code": "COL12", "num": "12", "name": "Richard Ríos", "foil": false}, {"code": "COL13", "num": "13", "name": "Foto da Seleção", "foil": false}, {"code": "COL14", "num": "14", "name": "James Rodríguez", "foil": false}, {"code": "COL15", "num": "15", "name": "Juan Fernando Quintero", "foil": false}, {"code": "COL16", "num": "16", "name": "Jorge Carrascal", "foil": false}, {"code": "COL17", "num": "17", "name": "Jhon Arias", "foil": false}, {"code": "COL18", "num": "18", "name": "Jhon Córdoba", "foil": false}, {"code": "COL19", "num": "19", "name": "Luis Suárez", "foil": false}, {"code": "COL20", "num": "20", "name": "Luis Díaz", "foil": false}]}, {"id": "ENG", "kind": "base", "title": "Inglaterra", "sub": "ENG", "items": [{"code": "ENG1", "num": "1", "name": "Escudo", "foil": true}, {"code": "ENG2", "num": "2", "name": "Jordan Pickford", "foil": false}, {"code": "ENG3", "num": "3", "name": "John Stones", "foil": false}, {"code": "ENG4", "num": "4", "name": "Marc Guéhi", "foil": false}, {"code": "ENG5", "num": "5", "name": "Ezri Konsa", "foil": false}, {"code": "ENG6", "num": "6", "name": "Trent Alexander-Arnold", "foil": false}, {"code": "ENG7", "num": "7", "name": "Reece James", "foil": false}, {"code": "ENG8", "num": "8", "name": "Dan Burn", "foil": false}, {"code": "ENG9", "num": "9", "name": "Jordan Henderson", "foil": false}, {"code": "ENG10", "num": "10", "name": "Declan Rice", "foil": false}, {"code": "ENG11", "num": "11", "name": "Jude Bellingham", "foil": false}, {"code": "ENG12", "num": "12", "name": "Cole Palmer", "foil": false}, {"code": "ENG13", "num": "13", "name": "Foto da Seleção", "foil": false}, {"code": "ENG14", "num": "14", "name": "Morgan Rogers", "foil": false}, {"code": "ENG15", "num": "15", "name": "Anthony Gordon", "foil": false}, {"code": "ENG16", "num": "16", "name": "Phil Foden", "foil": false}, {"code": "ENG17", "num": "17", "name": "Bukayo Saka", "foil": false}, {"code": "ENG18", "num": "18", "name": "Harry Kane", "foil": false}, {"code": "ENG19", "num": "19", "name": "Marcus Rashford", "foil": false}, {"code": "ENG20", "num": "20", "name": "Ollie Watkins", "foil": false}]}, {"id": "CRO", "kind": "base", "title": "Croácia", "sub": "CRO", "items": [{"code": "CRO1", "num": "1", "name": "Escudo", "foil": true}, {"code": "CRO2", "num": "2", "name": "Dominik Livaković", "foil": false}, {"code": "CRO3", "num": "3", "name": "Duje Ćaleta-Car", "foil": false}, {"code": "CRO4", "num": "4", "name": "Joško Gvardiol", "foil": false}, {"code": "CRO5", "num": "5", "name": "Josip Stanišić", "foil": false}, {"code": "CRO6", "num": "6", "name": "Luka Vušković", "foil": false}, {"code": "CRO7", "num": "7", "name": "Josip Šutalo", "foil": false}, {"code": "CRO8", "num": "8", "name": "Kristijan Jakić", "foil": false}, {"code": "CRO9", "num": "9", "name": "Luka Modrić", "foil": false}, {"code": "CRO10", "num": "10", "name": "Mateo Kovačić", "foil": false}, {"code": "CRO11", "num": "11", "name": "Martin Baturina", "foil": false}, {"code": "CRO12", "num": "12", "name": "Lovro Majer", "foil": false}, {"code": "CRO13", "num": "13", "name": "Foto da Seleção", "foil": false}, {"code": "CRO14", "num": "14", "name": "Mario Pašalić", "foil": false}, {"code": "CRO15", "num": "15", "name": "Petar Sučić", "foil": false}, {"code": "CRO16", "num": "16", "name": "Ivan Perišić", "foil": false}, {"code": "CRO17", "num": "17", "name": "Marco Pašalić", "foil": false}, {"code": "CRO18", "num": "18", "name": "Ante Budimir", "foil": false}, {"code": "CRO19", "num": "19", "name": "Andrej Kramarić", "foil": false}, {"code": "CRO20", "num": "20", "name": "Franjo Ivanović", "foil": false}]}, {"id": "GHA", "kind": "base", "title": "Gana", "sub": "GHA", "items": [{"code": "GHA1", "num": "1", "name": "Escudo", "foil": true}, {"code": "GHA2", "num": "2", "name": "Lawrence Ati-Zigi", "foil": false}, {"code": "GHA3", "num": "3", "name": "Tariq Lamptey", "foil": false}, {"code": "GHA4", "num": "4", "name": "Mohammed Salisu", "foil": false}, {"code": "GHA5", "num": "5", "name": "Alidu Seidu", "foil": false}, {"code": "GHA6", "num": "6", "name": "Alexander Djiku", "foil": false}, {"code": "GHA7", "num": "7", "name": "Gideon Mensah", "foil": false}, {"code": "GHA8", "num": "8", "name": "Caleb Yirenkyi", "foil": false}, {"code": "GHA9", "num": "9", "name": "Abdul Fatawu Issahaku", "foil": false}, {"code": "GHA10", "num": "10", "name": "Thomas Partey", "foil": false}, {"code": "GHA11", "num": "11", "name": "Salis Abdul Samed", "foil": false}, {"code": "GHA12", "num": "12", "name": "Kamaldeen Sulemana", "foil": false}, {"code": "GHA13", "num": "13", "name": "Foto da Seleção", "foil": false}, {"code": "GHA14", "num": "14", "name": "Mohammed Kudus", "foil": false}, {"code": "GHA15", "num": "15", "name": "Iñaki Williams", "foil": false}, {"code": "GHA16", "num": "16", "name": "Jordan Ayew", "foil": false}, {"code": "GHA17", "num": "17", "name": "André Ayew", "foil": false}, {"code": "GHA18", "num": "18", "name": "Joseph Paintsil", "foil": false}, {"code": "GHA19", "num": "19", "name": "Osman Bukari", "foil": false}, {"code": "GHA20", "num": "20", "name": "Antoine Semenyo", "foil": false}]}, {"id": "PAN", "kind": "base", "title": "Panamá", "sub": "PAN", "items": [{"code": "PAN1", "num": "1", "name": "Escudo", "foil": true}, {"code": "PAN2", "num": "2", "name": "Orlando Mosquera", "foil": false}, {"code": "PAN3", "num": "3", "name": "Luis Mejía", "foil": false}, {"code": "PAN4", "num": "4", "name": "Fidel Escobar", "foil": false}, {"code": "PAN5", "num": "5", "name": "Andrés Andrade", "foil": false}, {"code": "PAN6", "num": "6", "name": "Michael Amir Murillo", "foil": false}, {"code": "PAN7", "num": "7", "name": "Eric Davis", "foil": false}, {"code": "PAN8", "num": "8", "name": "José Córdoba", "foil": false}, {"code": "PAN9", "num": "9", "name": "César Blackman", "foil": false}, {"code": "PAN10", "num": "10", "name": "Cristian Martínez", "foil": false}, {"code": "PAN11", "num": "11", "name": "Aníbal Godoy", "foil": false}, {"code": "PAN12", "num": "12", "name": "Adalberto Carrasquilla", "foil": false}, {"code": "PAN13", "num": "13", "name": "Foto da Seleção", "foil": false}, {"code": "PAN14", "num": "14", "name": "Édgar Bárcenas", "foil": false}, {"code": "PAN15", "num": "15", "name": "Carlos Harvey", "foil": false}, {"code": "PAN16", "num": "16", "name": "Ismael Díaz", "foil": false}, {"code": "PAN17", "num": "17", "name": "José Fajardo", "foil": false}, {"code": "PAN18", "num": "18", "name": "Cecilio Waterman", "foil": false}, {"code": "PAN19", "num": "19", "name": "José Luis Rodríguez", "foil": false}, {"code": "PAN20", "num": "20", "name": "Alberto Quintero", "foil": false}]}, {"id": "museu", "kind": "base", "title": "Museu FIFA", "sub": "Campeões do passado", "items": [{"code": "FWC9", "num": "FWC9", "name": "Itália 1934", "foil": true}, {"code": "FWC10", "num": "FWC10", "name": "Uruguai 1950", "foil": true}, {"code": "FWC11", "num": "FWC11", "name": "Alemanha Ocidental 1954", "foil": true}, {"code": "FWC12", "num": "FWC12", "name": "Brasil 1962", "foil": true}, {"code": "FWC13", "num": "FWC13", "name": "Alemanha Ocidental 1974", "foil": true}, {"code": "FWC14", "num": "FWC14", "name": "Argentina 1986", "foil": true}, {"code": "FWC15", "num": "FWC15", "name": "Brasil 1994", "foil": true}, {"code": "FWC16", "num": "FWC16", "name": "Brasil 2002", "foil": true}, {"code": "FWC17", "num": "FWC17", "name": "Itália 2006", "foil": true}, {"code": "FWC18", "num": "FWC18", "name": "Alemanha 2014", "foil": true}, {"code": "FWC19", "num": "FWC19", "name": "Argentina 2022", "foil": true}]}, {"id": "coca", "kind": "bonus", "title": "Coca-Cola", "sub": "Só nas garrafas · 12", "items": [{"code": "CC1", "num": "CC1", "name": "Lamine Yamal — Espanha", "foil": false}, {"code": "CC2", "num": "CC2", "name": "Joshua Kimmich — Alemanha", "foil": false}, {"code": "CC3", "num": "CC3", "name": "Harry Kane — Inglaterra", "foil": false}, {"code": "CC4", "num": "CC4", "name": "Santiago Giménez — México", "foil": false}, {"code": "CC5", "num": "CC5", "name": "Antonee Robinson — EUA", "foil": false}, {"code": "CC6", "num": "CC6", "name": "Jefferson Lerma — Colômbia", "foil": false}, {"code": "CC7", "num": "CC7", "name": "Edson Álvarez — México", "foil": false}, {"code": "CC8", "num": "CC8", "name": "Virgil van Dijk — Holanda", "foil": false}, {"code": "CC9", "num": "CC9", "name": "Alphonso Davies — Canadá", "foil": false}, {"code": "CC10", "num": "CC10", "name": "Weston McKennie — EUA", "foil": false}, {"code": "CC11", "num": "CC11", "name": "Lautaro Martínez — Argentina", "foil": false}, {"code": "CC12", "num": "CC12", "name": "Gabriel Magalhães — Brasil", "foil": false}]}, {"id": "extra", "kind": "bonus", "title": "Extra Stickers", "sub": "1:100 pacotes · 20", "items": [{"code": "EX1", "num": "★", "name": "Achraf Hakimi — Marrocos", "foil": true}, {"code": "EX2", "num": "★", "name": "Alphonso Davies — Canadá", "foil": true}, {"code": "EX3", "num": "★", "name": "Christian Pulisic — EUA", "foil": true}, {"code": "EX4", "num": "★", "name": "Cody Gakpo — Holanda", "foil": true}, {"code": "EX5", "num": "★", "name": "Cristiano Ronaldo — Portugal", "foil": true}, {"code": "EX6", "num": "★", "name": "Erling Haaland — Noruega", "foil": true}, {"code": "EX7", "num": "★", "name": "Federico Valverde — Uruguai", "foil": true}, {"code": "EX8", "num": "★", "name": "Florian Wirtz — Alemanha", "foil": true}, {"code": "EX9", "num": "★", "name": "Son Heung-min — Coreia do Sul", "foil": true}, {"code": "EX10", "num": "★", "name": "Jérémy Doku — Bélgica", "foil": true}, {"code": "EX11", "num": "★", "name": "Jude Bellingham — Inglaterra", "foil": true}, {"code": "EX12", "num": "★", "name": "Kylian Mbappé — França", "foil": true}, {"code": "EX13", "num": "★", "name": "Lamine Yamal — Espanha", "foil": true}, {"code": "EX14", "num": "★", "name": "Lionel Messi — Argentina", "foil": true}, {"code": "EX15", "num": "★", "name": "Luis Díaz — Colômbia", "foil": true}, {"code": "EX16", "num": "★", "name": "Luka Modrić — Croácia", "foil": true}, {"code": "EX17", "num": "★", "name": "Mohamed Salah — Egito", "foil": true}, {"code": "EX18", "num": "★", "name": "Moisés Caicedo — Equador", "foil": true}, {"code": "EX19", "num": "★", "name": "Raúl Jiménez — México", "foil": true}, {"code": "EX20", "num": "★", "name": "Vinícius Júnior — Brasil", "foil": true}]}], "baseTotal": 980, "seed": ["00", "FWC2", "FWC5", "FWC8", "MEX4", "MEX5", "MEX6", "MEX8", "MEX9", "MEX12", "MEX13", "MEX14", "MEX15", "MEX17", "MEX18", "MEX20", "RSA2", "RSA4", "RSA5", "RSA6", "RSA7", "RSA8", "RSA9", "RSA10", "RSA12", "RSA13", "RSA14", "RSA15", "RSA16", "RSA17", "RSA19", "KOR2", "KOR4", "KOR5", "KOR9", "KOR11", "KOR13", "KOR14", "KOR15", "KOR16", "KOR18", "KOR19", "KOR20", "CZE1", "CZE4", "CZE5", "CZE6", "CZE7", "CZE8", "CZE9", "CZE10", "CZE11", "CZE12", "CZE13", "CZE15", "CZE16", "CZE17", "CZE19", "CAN1", "CAN3", "CAN4", "CAN5", "CAN7", "CAN8", "CAN9", "CAN11", "CAN14", "CAN15", "CAN17", "CAN18", "CAN19", "BIH1", "BIH3", "BIH7", "BIH8", "BIH9", "BIH10", "BIH11", "BIH12", "BIH14", "BIH15", "BIH17", "BIH18", "BIH19", "BIH20", "QAT2", "QAT5", "QAT6", "QAT10", "QAT12", "QAT13", "QAT15", "QAT19", "SUI3", "SUI4", "SUI5", "SUI6", "SUI10", "SUI11", "SUI15", "SUI16", "SUI19", "BRA1", "BRA2", "BRA5", "BRA6", "BRA10", "BRA11", "BRA13", "BRA14", "BRA16", "BRA18", "BRA19", "BRA20", "MAR1", "MAR2", "MAR3", "MAR5", "MAR6", "MAR7", "MAR9", "MAR10", "MAR11", "MAR13", "MAR14", "MAR15", "MAR18", "MAR19", "HAI2", "HAI3", "HAI5", "HAI6", "HAI7", "HAI9", "HAI10", "HAI11", "HAI12", "HAI13", "HAI14", "HAI15", "HAI16", "HAI17", "HAI18", "HAI19", "SCO2", "SCO3", "SCO4", "SCO5", "SCO6", "SCO9", "SCO10", "SCO12", "SCO14", "SCO17", "SCO19", "USA1", "USA2", "USA4", "USA6", "USA7", "USA9", "USA10", "USA11", "USA13", "USA15", "USA16", "USA17", "USA18", "USA20", "PAR1", "PAR2", "PAR3", "PAR17", "AUS1", "AUS2", "AUS4", "AUS5", "AUS6", "AUS8", "AUS9", "AUS10", "AUS11", "AUS12", "AUS13", "AUS14", "AUS15", "AUS16", "AUS17", "AUS18", "AUS19", "AUS20", "TUR1", "TUR2", "TUR3", "TUR4", "TUR5", "TUR6", "TUR9", "TUR12", "TUR13", "TUR14", "TUR17", "TUR18", "TUR19", "GER1", "GER4", "GER6", "GER7", "GER11", "GER13", "GER16", "GER17", "GER18", "CUW1", "CUW2", "CUW7", "CUW8", "CUW10", "CUW11", "CUW12", "CUW15", "CUW16", "CUW17", "CUW19", "CUW20", "CIV2", "CIV4", "CIV5", "CIV6", "CIV7", "CIV8", "CIV9", "CIV10", "CIV11", "CIV12", "CIV13", "CIV14", "CIV15", "CIV17", "CIV19", "CIV20", "ECU1", "ECU4", "ECU5", "ECU7", "ECU8", "ECU12", "ECU15", "ECU16", "NED2", "NED5", "NED6", "NED7", "NED9", "NED10", "NED12", "NED13", "NED15", "NED16", "NED19", "JPN4", "JPN5", "JPN8", "JPN11", "JPN12", "JPN13", "JPN17", "SWE1", "SWE2", "SWE3", "SWE4", "SWE5", "SWE6", "SWE7", "SWE8", "SWE9", "SWE11", "SWE12", "SWE14", "SWE15", "SWE16", "SWE17", "SWE19", "SWE20", "TUN1", "TUN4", "TUN5", "TUN6", "TUN8", "TUN10", "TUN11", "TUN12", "TUN14", "TUN15", "TUN16", "TUN18", "TUN20", "BEL3", "BEL4", "BEL9", "BEL12", "BEL13", "BEL16", "BEL17", "BEL20", "EGY1", "EGY2", "EGY5", "EGY7", "EGY8", "EGY9", "EGY10", "EGY12", "EGY14", "EGY15", "EGY18", "EGY19", "EGY20", "IRN1", "IRN3", "IRN4", "IRN7", "IRN8", "IRN9", "IRN11", "IRN12", "IRN13", "IRN14", "IRN15", "IRN16", "IRN17", "IRN18", "IRN19", "IRN20", "NZL1", "NZL3", "NZL5", "NZL6", "NZL7", "NZL9", "NZL11", "NZL12", "NZL13", "NZL14", "NZL15", "NZL16", "NZL18", "NZL20", "ESP1", "ESP2", "ESP3", "ESP5", "ESP6", "ESP10", "ESP13", "ESP18", "CPV1", "CPV2", "CPV3", "CPV4", "CPV6", "CPV7", "CPV10", "CPV11", "CPV13", "CPV14", "CPV15", "CPV18", "CPV19", "KSA4", "KSA5", "KSA6", "KSA8", "KSA9", "KSA11", "KSA12", "KSA13", "KSA14", "KSA17", "KSA18", "KSA20", "URU1", "URU2", "URU3", "URU4", "URU5", "URU6", "URU7", "URU8", "URU9", "URU10", "URU13", "URU14", "URU15", "URU16", "URU17", "URU18", "URU19", "URU20", "FRA2", "FRA3", "FRA4", "FRA6", "FRA7", "FRA9", "FRA10", "FRA12", "FRA14", "FRA16", "FRA18", "FRA19", "SEN1", "SEN2", "SEN3", "SEN5", "SEN6", "SEN9", "SEN10", "SEN13", "SEN14", "SEN15", "SEN16", "SEN17", "SEN19", "IRQ1", "IRQ2", "IRQ4", "IRQ6", "IRQ8", "IRQ9", "IRQ10", "IRQ12", "IRQ14", "IRQ15", "IRQ17", "IRQ18", "IRQ19", "IRQ20", "NOR8", "NOR10", "NOR11", "NOR12", "NOR13", "NOR17", "NOR20", "ARG4", "ARG7", "ARG10", "ARG13", "ARG14", "ARG15", "ARG16", "ARG17", "ARG18", "ARG19", "ARG20", "ALG3", "ALG4", "ALG5", "ALG9", "ALG11", "ALG13", "ALG14", "ALG15", "ALG16", "ALG17", "ALG20", "AUT3", "AUT4", "AUT5", "AUT6", "AUT7", "AUT8", "AUT9", "AUT10", "AUT13", "AUT14", "AUT18", "AUT20", "JOR2", "JOR3", "JOR4", "JOR6", "JOR7", "JOR10", "JOR11", "JOR13", "JOR15", "JOR16", "JOR19", "JOR20", "POR1", "POR2", "POR3", "POR4", "POR5", "POR6", "POR7", "POR10", "POR11", "POR15", "POR16", "POR17", "POR20", "COD1", "COD2", "COD4", "COD6", "COD8", "COD9", "COD10", "COD15", "COD17", "UZB2", "UZB3", "UZB4", "UZB6", "UZB7", "UZB8", "UZB11", "UZB12", "UZB15", "UZB16", "UZB17", "UZB18", "UZB19", "UZB20", "COL1", "COL2", "COL4", "COL5", "COL6", "COL8", "COL10", "COL12", "COL13", "COL15", "COL17", "COL18", "COL19", "COL20", "ENG1", "ENG2", "ENG5", "ENG6", "ENG7", "ENG9", "ENG11", "ENG12", "ENG15", "ENG16", "ENG17", "ENG19", "ENG20", "CRO1", "CRO2", "CRO3", "CRO4", "CRO6", "CRO7", "CRO8", "CRO9", "CRO12", "CRO13", "CRO14", "CRO19", "GHA2", "GHA3", "GHA4", "GHA5", "GHA6", "GHA7", "GHA8", "GHA9", "GHA10", "GHA13", "GHA14", "GHA15", "GHA16", "GHA18", "GHA20", "PAN1", "PAN4", "PAN9", "PAN12", "PAN13", "PAN18", "PAN20", "FWC9", "FWC11", "FWC12", "FWC13", "FWC14", "FWC16", "FWC18"]};
+
+/* ====== CONFIG SUPABASE — preencha estes 2 valores ====== */
+const SUPABASE_URL = "https://iboedfzirdfvxaulyjfi.supabase.co";
+const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imlib2VkZnppcmRmdnhhdWx5amZpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODI1NjQyMzAsImV4cCI6MjA5ODE0MDIzMH0.9hjbFRjysZ7ValLj4tKqK5H_AA3g_45X7_tCPp-TL-0";
+/* ======================================================== */
+let supa=null, user=null;
+const KEY = "panini26:v1";
+let owned = {};      // code -> true
+let onlyMissing = false;
+let query = "";
+let saveTimer = null;
+
+/* ---------- storage (artifact persistent) ---------- */
+async function loadProgress(){
+  owned = {};
+  try{
+    const { data, error } = await supa.from('sticker_progress').select('owned').eq('user_id', user.id).maybeSingle();
+    if(!error && data && data.owned) owned = data.owned;
+  }catch(e){ owned = {}; }
+}
+function scheduleSave(){
+  const s=document.getElementById('saved'); s.classList.remove('show');
+  clearTimeout(saveTimer);
+  saveTimer=setTimeout(async()=>{
+    if(!user) return;
+    try{ await supa.from('sticker_progress').upsert({ user_id:user.id, owned:owned, updated_at:new Date().toISOString() }); }catch(e){}
+    s.classList.add('show'); setTimeout(()=>s.classList.remove('show'),1400);
+  },650);
+}
+
+/* ---------- helpers ---------- */
+const norm = s => (s||"").toString().toLowerCase()
+  .normalize("NFD").replace(/[\u0300-\u036f]/g,"");
+function baseItems(){ let a=[]; DATA.sections.forEach(s=>{ if(s.kind==="base") a=a.concat(s.items); }); return a; }
+function secStats(s){ let h=0; s.items.forEach(it=>{ if(owned[it.code]) h++; }); return {h, n:s.items.length}; }
+
+/* ---------- render ---------- */
+function buildSections(){
+  const list=document.getElementById('list'); list.innerHTML="";
+  DATA.sections.forEach(s=>{
+    const el=document.createElement('section'); el.className='sec'+(s.kind==='bonus'?' bonus':''); el.dataset.id=s.id;
+    el.innerHTML=`
+      <div class="sechead">
+        <span class="code">${s.sub.length<=5?s.sub:s.id.toUpperCase()}</span>
+        <div class="sectitle"><div class="t">${s.title}<span class="chk">✓</span></div><div class="s">${s.kind==='bonus'?s.sub:s.items.length+' figurinhas'}</div></div>
+        <span class="count"></span>
+        <svg class="caret" viewBox="0 0 24 24" fill="none" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+      </div>
+      <div class="mini"><i></i></div>
+      <div class="grid"></div>
+      <div class="emptyhint"></div>`;
+    const grid=el.querySelector('.grid');
+    s.items.forEach(it=>{
+      const c=document.createElement('button');
+      c.className='chip'+(it.foil?' foil':'');
+      c.dataset.code=it.code;
+      c.innerHTML=`<span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg></span>
+        <span class="n">${it.num}</span><span class="nm">${it.name}</span>`;
+      c.addEventListener('click',()=>toggle(it.code,c,el,s));
+      grid.appendChild(c);
+    });
+    el.querySelector('.sechead').addEventListener('click',()=>{
+      el.classList.toggle('open'); paintSection(el,s);
+    });
+    list.appendChild(el);
+    paintChips(el,s); paintSection(el,s);
+  });
+}
+function paintChips(el,s){
+  el.querySelectorAll('.chip').forEach(c=>{
+    c.classList.toggle('have', !!owned[c.dataset.code]);
+  });
+}
+function paintSection(el,s){
+  const {h,n}=secStats(s);
+  el.querySelector('.count').innerHTML = h===n ? `<b>completo</b>` : `<b>${h}</b>/${n}`;
+  el.querySelector('.mini > i').style.width=(h/n*100)+'%';
+  el.classList.toggle('done', h===n);
+  el.classList.toggle('allhave', h===n);
+  // empty hint when filtering
+  const hint=el.querySelector('.emptyhint');
+  if(onlyMissing && h===n){ hint.textContent="Tudo colado aqui ✓"; }
+  else hint.textContent="";
+}
+function toggle(code,c,el,s){
+  if(owned[code]) delete owned[code]; else owned[code]=1;
+  c.classList.toggle('have', !!owned[code]);
+  if(navigator.vibrate) navigator.vibrate(8);
+  paintSection(el,s); paintHero(); scheduleSave();
+  if(onlyMissing) applyFilter();
+}
+function paintHero(){
+  const items=baseItems(); const total=DATA.baseTotal;
+  let h=0; items.forEach(it=>{ if(owned[it.code]) h++; });
+  const miss=total-h, pct=Math.round(h/total*100);
+  document.getElementById('heroMiss').textContent=miss;
+  document.getElementById('heroHave').textContent=h;
+  document.getElementById('heroPct').textContent=pct+'%';
+  document.getElementById('heroBar').style.width=pct+'%';
+  if(window.calcRender) calcRender();
+}
+
+/* ---------- filter + search ---------- */
+function applyFilter(){
+  const q=norm(query);
+  let anyVisible=false;
+  document.querySelectorAll('.sec').forEach(el=>{
+    const s=DATA.sections.find(x=>x.id===el.dataset.id);
+    let visChips=0;
+    el.querySelectorAll('.chip').forEach(c=>{
+      const it=s.items.find(i=>i.code===c.dataset.code);
+      let show=true;
+      if(onlyMissing && owned[it.code]) show=false;
+      if(q){
+        const hay=norm(it.name+' '+it.code+' '+s.title+' '+s.sub);
+        if(!hay.includes(q)) show=false;
+      }
+      c.style.display=show?'':'none';
+      if(show) visChips++;
+    });
+    const {h,n}=secStats(s);
+    let secShow = visChips>0;
+    if(onlyMissing && h===n && !q) secShow=false; // hide completed teams
+    el.style.display=secShow?'':'none';
+    if(secShow) anyVisible=true;
+    // auto-open on search, otherwise keep state but force open when filtering missing & has results
+    if(q && visChips>0) el.classList.add('open');
+    paintSection(el,s);
+  });
+  document.getElementById('nores').style.display=anyVisible?'none':'block';
+}
+
+/* ---------- copy ---------- */
+function buildMissingText(){
+  let out=["FALTAM — Álbum Copa 2026 (Panini)",""];
+  DATA.sections.forEach(s=>{
+    if(s.kind!=='base') return;
+    const miss=s.items.filter(it=>!owned[it.code]);
+    if(!miss.length) return;
+    if(s.id==='intro'||s.id==='museu'){
+      out.push(s.title.toUpperCase()+": "+miss.map(m=>m.code).join(", "));
+    }else{
+      out.push(s.title.toUpperCase()+" ("+s.sub+"): "+miss.map(m=>m.num).join(", "));
+    }
+  });
+  // bonus
+  DATA.sections.forEach(s=>{
+    if(s.kind!=='bonus') return;
+    const miss=s.items.filter(it=>!owned[it.code]);
+    if(miss.length) out.push("• "+s.title+": "+miss.map(m=>m.name).join(", "));
+  });
+  const items=baseItems(); const h=items.filter(it=>owned[it.code]).length;
+  out.push("", `Faltam ${DATA.baseTotal-h} de ${DATA.baseTotal} • coladas ${h}`);
+  if(h===DATA.baseTotal) return "Álbum COMPLETO! 980/980 ✓";
+  return out.join("\n");
+}
+function buildHaveText(){
+  const have=baseItems().filter(it=>owned[it.code]).map(it=>it.code);
+  return "TENHO ("+have.length+"): "+have.join(", ");
+}
+async function copy(text){
+  try{ await navigator.clipboard.writeText(text); toast("Copiado! Cola no grupo de troca 📋"); }
+  catch(e){
+    const ta=document.createElement('textarea'); ta.value=text; ta.style.position='fixed'; ta.style.opacity='0';
+    document.body.appendChild(ta); ta.select();
+    try{ document.execCommand('copy'); toast("Copiado! 📋"); }catch(_){ toast("Não consegui copiar 😕"); }
+    ta.remove();
+  }
+}
+
+/* ---------- ui glue ---------- */
+function toast(m){ const t=document.getElementById('toast'); t.textContent=m; t.classList.add('show'); clearTimeout(t._t); t._t=setTimeout(()=>t.classList.remove('show'),2200); }
+function openSheet(o){ if(o&&user){const em=document.getElementById('acctEmail'); if(em) em.textContent=user.email;} document.getElementById('scrim').classList.toggle('show',o); document.getElementById('sheet').classList.toggle('show',o); }
+
+document.getElementById('search').addEventListener('input',e=>{ query=e.target.value; applyFilter(); });
+document.getElementById('missBtn').addEventListener('click',e=>{
+  onlyMissing=!onlyMissing;
+  document.getElementById('missBtn').classList.toggle('on',onlyMissing);
+  if(onlyMissing) document.querySelectorAll('.sec').forEach(el=>el.classList.add('open'));
+  applyFilter();
+});
+document.getElementById('copyBtn').addEventListener('click',()=>copy(buildMissingText()));
+let allOpen=false;
+document.getElementById('expandBtn').addEventListener('click',()=>{
+  allOpen=!allOpen;
+  document.querySelectorAll('.sec').forEach(el=>{ el.classList.toggle('open',allOpen);
+    const s=DATA.sections.find(x=>x.id===el.dataset.id); paintSection(el,s); });
+  toast(allOpen?"Tudo aberto":"Tudo recolhido");
+});
+document.getElementById('menuBtn').addEventListener('click',()=>openSheet(true));
+document.getElementById('scrim').addEventListener('click',()=>openSheet(false));
+document.getElementById('mCollapse').addEventListener('click',()=>{ document.querySelectorAll('.sec').forEach(el=>el.classList.remove('open')); allOpen=false; openSheet(false); });
+document.getElementById('mCopyTeam').addEventListener('click',()=>{ copy(buildHaveText()); openSheet(false); });
+document.getElementById('mReset').addEventListener('click',()=>{
+  if(confirm("Apagar TODAS as marcações? Não dá pra desfazer.")){
+    owned={}; document.querySelectorAll('.chip').forEach(c=>c.classList.remove('have'));
+    DATA.sections.forEach(s=>{ const el=document.querySelector('.sec[data-id="'+s.id+'"]'); paintSection(el,s); });
+    paintHero(); scheduleSave(); applyFilter(); toast("Zerado");
+  }
+  openSheet(false);
+});
+
+/* ---------- calculadora (coupon collector) ---------- */
+let calcTarget=882;
+function ownedBaseCount(){ let h=0; baseItems().forEach(it=>{ if(owned[it.code]) h++; }); return h; }
+function expectedDraws(k0,T){ const N=DATA.baseTotal; let s=0; for(let k=k0;k<T;k++) s+=N/(N-k); return s; }
+function brl(v){ return "R$ "+Math.round(v).toLocaleString('pt-BR'); }
+function calcRender(){
+  const N=DATA.baseTotal, k0=ownedBaseCount();
+  const price=Math.max(0.5, parseFloat(document.getElementById('optPrice').value)||7);
+  const packSize=Math.max(1, parseInt(document.getElementById('optPack').value)||7);
+  let T=Math.min(N, Math.max(1, calcTarget));
+  const pct=Math.round(T/N*100);
+  // slider fill + labels
+  const sl=document.getElementById('calcSlider');
+  sl.value=T; sl.style.setProperty('--fill', ((T-sl.min)/(sl.max-sl.min)*100)+'%');
+  document.getElementById('calcTargetN').textContent=T;
+  document.getElementById('calcPct2').textContent=pct+'%';
+  document.getElementById('calcPctLbl').textContent=pct+'%';
+  // presets highlight
+  document.querySelectorAll('#presets button').forEach(b=>{
+    b.classList.toggle('on', Math.round(N*(+b.dataset.pct)/100)===T); });
+  const note=document.getElementById('calcNote');
+  if(T<=k0){
+    document.getElementById('calcCost').textContent="feito ✓";
+    document.getElementById('rPacks').textContent="0";
+    document.getElementById('rNew').textContent="0";
+    document.getElementById('rDup').textContent="0";
+    note.className="calcnote good";
+    note.textContent=`Você já tem ${k0} (${Math.round(k0/N*100)}%) — essa meta já tá batida! 🎉`;
+    return;
+  }
+  const draws=expectedDraws(k0,T);
+  const packs=Math.ceil(draws/packSize);
+  const cost=packs*price;
+  const newNeeded=T-k0;
+  const dups=Math.max(0, Math.round(draws-newNeeded));
+  document.getElementById('calcCost').textContent=brl(cost);
+  document.getElementById('rPacks').textContent=packs.toLocaleString('pt-BR');
+  document.getElementById('rNew').textContent=newNeeded.toLocaleString('pt-BR');
+  document.getElementById('rDup').textContent="~"+dups.toLocaleString('pt-BR');
+  note.className="calcnote";
+  const perNew=cost/newNeeded;
+  note.textContent=`A partir das suas ${k0} coladas (${Math.round(k0/N*100)}%), comprando sem trocar: ~${packs} pacotes pra +${newNeeded} novas. Média ${brl(perNew)}/nova. É estimativa (média) — supõe distribuição uniforme.`;
+}
+function calcInit(){
+  const sl=document.getElementById('calcSlider');
+  sl.min=Math.max(50, Math.round(DATA.baseTotal*0.5));
+  document.getElementById('calcHead').addEventListener('click',()=>document.getElementById('calc').classList.toggle('open'));
+  document.querySelectorAll('#presets button').forEach(b=>b.addEventListener('click',()=>{
+    calcTarget=Math.round(DATA.baseTotal*(+b.dataset.pct)/100); calcRender(); }));
+  sl.addEventListener('input',()=>{ calcTarget=+sl.value; calcRender(); });
+  document.getElementById('optPrice').addEventListener('input',calcRender);
+  document.getElementById('optPack').addEventListener('input',calcRender);
+}
+
+async function repaintAll(){
+  document.querySelectorAll('.sec').forEach(el=>{ const s=DATA.sections.find(x=>x.id===el.dataset.id); paintChips(el,s); paintSection(el,s); });
+  paintHero();
+}
+async function enterApp(u){
+  user=u;
+  document.getElementById('authgate').style.display='none';
+  await loadProgress();
+  await repaintAll();
+}
+function authMsg(t,cls){ const m=document.getElementById('authMsg'); m.textContent=t||''; m.className='authmsg'+(cls?' '+cls:''); }
+async function doLogin(){
+  const email=document.getElementById('authEmail').value.trim();
+  const pass=document.getElementById('authPass').value;
+  if(!email||!pass){ authMsg('Preencha e-mail e senha.','err'); return; }
+  authMsg('Entrando…');
+  const { data, error } = await supa.auth.signInWithPassword({ email, password:pass });
+  if(error){ authMsg(error.message,'err'); return; }
+  enterApp(data.user);
+}
+async function doSignup(){
+  const email=document.getElementById('authEmail').value.trim();
+  const pass=document.getElementById('authPass').value;
+  if(!email||pass.length<6){ authMsg('E-mail válido e senha de 6+ caracteres.','err'); return; }
+  authMsg('Criando conta…');
+  const { data, error } = await supa.auth.signUp({ email, password:pass });
+  if(error){ authMsg(error.message,'err'); return; }
+  if(data.session){ enterApp(data.user); }
+  else authMsg('Conta criada! Confirme pelo link no seu e-mail e depois entre.','ok');
+}
+async function doGoogle(){
+  authMsg('Abrindo o Google…');
+  const { error } = await supa.auth.signInWithOAuth({ provider:'google', options:{ redirectTo: window.location.origin } });
+  if(error){ authMsg(error.message,'err'); }
+}
+async function doLogout(){
+  await supa.auth.signOut(); user=null; owned={};
+  document.getElementById('authgate').style.display='flex';
+  authMsg('');
+}
+(async function init(){
+  buildSections();
+  calcInit();
+  // botão de logout no menu
+  const sheet=document.getElementById('sheet');
+  const acct=document.createElement('div'); acct.className='acct';
+  acct.innerHTML='<span class="em" id="acctEmail"></span><button id="btnLogout">Sair</button>';
+  sheet.appendChild(acct);
+  document.getElementById('btnLogout').addEventListener('click',()=>{ openSheet(false); doLogout(); });
+
+  const configured = SUPABASE_URL.indexOf('http')===0 && SUPABASE_ANON_KEY.length>20;
+  if(!configured){ document.getElementById('authcfg').style.display='block'; return; }
+  supa = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+  document.getElementById('btnLogin').addEventListener('click',doLogin);
+  document.getElementById('btnSignup').addEventListener('click',doSignup);
+  document.getElementById('btnGoogle').addEventListener('click',doGoogle);
+  document.getElementById('authPass').addEventListener('keydown',e=>{ if(e.key==='Enter') doLogin(); });
+
+  supa.auth.onAuthStateChange((_e,sess)=>{ const em=document.getElementById('acctEmail'); if(sess&&sess.user&&em) em.textContent=sess.user.email; });
+  const { data:{ session } } = await supa.auth.getSession();
+  if(session){ enterApp(session.user); }
+})();
+</script>
+</body>
+</html>
