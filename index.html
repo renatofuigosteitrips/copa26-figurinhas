@@ -424,8 +424,9 @@ function paintHero(){
 function applyFilter(){
   const q=norm(query);
   let anyVisible=false;
-  document.querySelectorAll('.sec').forEach(el=>{
+  document.querySelectorAll('section.sec').forEach(el=>{
     const s=DATA.sections.find(x=>x.id===el.dataset.id);
+    if(!s) return;
     let visChips=0;
     el.querySelectorAll('.chip').forEach(c=>{
       const it=s.items.find(i=>i.code===c.dataset.code);
@@ -496,20 +497,20 @@ document.getElementById('search').addEventListener('input',e=>{ query=e.target.v
 document.getElementById('missBtn').addEventListener('click',e=>{
   onlyMissing=!onlyMissing;
   document.getElementById('missBtn').classList.toggle('on',onlyMissing);
-  if(onlyMissing) document.querySelectorAll('.sec').forEach(el=>el.classList.add('open'));
+  if(onlyMissing) document.querySelectorAll('section.sec').forEach(el=>el.classList.add('open'));
   applyFilter();
 });
 document.getElementById('copyBtn').addEventListener('click',()=>copy(buildMissingText()));
 let allOpen=false;
 document.getElementById('expandBtn').addEventListener('click',()=>{
   allOpen=!allOpen;
-  document.querySelectorAll('.sec').forEach(el=>{ el.classList.toggle('open',allOpen);
-    const s=DATA.sections.find(x=>x.id===el.dataset.id); paintSection(el,s); });
+  document.querySelectorAll('section.sec').forEach(el=>{ el.classList.toggle('open',allOpen);
+    const s=DATA.sections.find(x=>x.id===el.dataset.id); if(!s) return; paintSection(el,s); });
   toast(allOpen?"Tudo aberto":"Tudo recolhido");
 });
 document.getElementById('menuBtn').addEventListener('click',()=>openSheet(true));
 document.getElementById('scrim').addEventListener('click',()=>openSheet(false));
-document.getElementById('mCollapse').addEventListener('click',()=>{ document.querySelectorAll('.sec').forEach(el=>el.classList.remove('open')); allOpen=false; openSheet(false); });
+document.getElementById('mCollapse').addEventListener('click',()=>{ document.querySelectorAll('section.sec').forEach(el=>el.classList.remove('open')); allOpen=false; openSheet(false); });
 document.getElementById('mCopyTeam').addEventListener('click',()=>{ copy(buildHaveText()); openSheet(false); });
 document.getElementById('mReset').addEventListener('click',()=>{
   if(confirm("Apagar TODAS as marcações? Não dá pra desfazer.")){
@@ -575,7 +576,7 @@ function calcInit(){
 }
 
 async function repaintAll(){
-  document.querySelectorAll('.sec').forEach(el=>{ const s=DATA.sections.find(x=>x.id===el.dataset.id); paintChips(el,s); paintSection(el,s); });
+  document.querySelectorAll('section.sec').forEach(el=>{ const s=DATA.sections.find(x=>x.id===el.dataset.id); if(!s) return; paintChips(el,s); paintSection(el,s); });
   paintHero();
 }
 async function enterApp(u){
