@@ -8,6 +8,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800;900&family=Inter:wght@400;500;600;700&family=Space+Mono:wght@700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
 :root{
   --paper:#EEF1F4; --card:#FFFFFF; --ink:#0A1B33; --ink-soft:#41506b;
@@ -207,7 +208,10 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:24px;heigh
 .acct{display:flex;align-items:center;gap:8px;padding:10px 8px;border-top:1px solid var(--line);margin-top:6px;font-size:13px;color:var(--ink-soft)}
 .acct .em{font-weight:600;color:var(--ink);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .acct button{margin-left:auto;background:none;border:1px solid var(--line);border-radius:9px;padding:7px 12px;font-weight:700;color:#c4123a;cursor:pointer;font-family:Inter;font-size:13px}
-
+@media(max-width:380px){
+  .fgt-banner{gap:12px!important;padding:16px 16px!important}
+  .fgt-eyebrow{display:none!important}
+}
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
@@ -266,6 +270,20 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:24px;heigh
       <span class="saved" id="saved">salvo ✓</span>
     </div>
   </div>
+
+  <a class="fgt-banner" href="https://instagram.com/fuigosteitrips" target="_blank" rel="noopener"
+     style="display:flex;align-items:center;gap:18px;text-decoration:none;background:linear-gradient(135deg,#ed771b 0%,#cf6514 100%);border-radius:16px;padding:20px 22px;margin:14px 0;position:relative;overflow:hidden;box-shadow:0 6px 18px rgba(207,101,20,.25);font-family:'Source Code Pro','Courier New',monospace;">
+    <svg viewBox="0 0 24 24" width="120" height="120" fill="none" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="position:absolute;right:-8px;bottom:-26px;opacity:.10"><path d="M22 2L11 13"/><path d="M22 2l-7 20-4-9-9-4 20-7z"/></svg>
+    <span style="flex:0 0 auto;width:56px;height:56px;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(0,0,0,.12)">
+      <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="#cf6514" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><line x1="3" y1="12" x2="21" y2="12"/><path d="M12 3c2.5 2.6 2.5 15.4 0 18"/><path d="M12 3c-2.5 2.6-2.5 15.4 0 18"/></svg>
+    </span>
+    <span style="flex:1 1 auto;min-width:0;z-index:1">
+      <span class="fgt-eyebrow" style="display:block;font-size:11px;font-weight:600;letter-spacing:3px;color:#fff;opacity:.85">PARCEIRO DA COPA 26</span>
+      <span style="display:block;font-size:19px;font-weight:700;letter-spacing:1.5px;color:#fff;line-height:1.2;margin-top:3px">FUI GOSTEI TRIPS</span>
+      <span style="display:block;font-size:13.5px;color:#fff;opacity:.95;margin-top:3px">Sua viagem tão única quanto você</span>
+    </span>
+    <span style="flex:0 0 auto;z-index:1;background:#165c99;color:#fff;font-size:13px;font-weight:700;padding:11px 17px;border-radius:999px;display:flex;align-items:center;gap:7px;white-space:nowrap">Conheça <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg></span>
+  </a>
 
   <div class="calc" id="calc">
     <div class="calchead" id="calcHead">
